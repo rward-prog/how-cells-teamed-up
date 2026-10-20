@@ -1,0 +1,2537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Cells Teamed Up | Prokaryotes, Eukaryotes, Endosymbiosis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12304A;
+  --water-top:#3FB8C9;
+  --water-deep:#16507A;
+  --host:#FFB5A7;
+  --coral:#FF6B6B;
+  --leaf:#5BD16B;
+  --sun:#FFD23F;
+  --panel:#F1FBFA;
+  --purple:#8E6BE0;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:'Nunito',system-ui,sans-serif;
+  font-size:18px;
+  line-height:1.5;
+  color:var(--ink);
+  min-height:100vh;
+  background:linear-gradient(180deg,#0F4C73 0%,#0A2F4C 100%);
+}
+h1,h2,.btn{font-family:'Fredoka','Nunito',system-ui,sans-serif}
+.wrap{max-width:1200px;margin:0 auto;padding:16px 18px 40px}
+header{display:flex;align-items:center;gap:12px;margin:4px 0 16px}
+header h1{margin:0;font-size:30px;font-weight:600;color:#fff;letter-spacing:.2px}
+header .dot{width:34px;height:34px;border-radius:50%;background:var(--host);border:3px solid var(--ink);position:relative;flex:none}
+header .dot::after{content:"";position:absolute;left:15px;top:13px;width:11px;height:8px;border-radius:50%;background:var(--coral);border:2px solid var(--ink)}
+
+main{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(330px,1fr);gap:20px;align-items:stretch}
+@media (max-width:900px){main{grid-template-columns:1fr}}
+
+.stage-frame{border:4px solid var(--ink);border-radius:26px;overflow:hidden;box-shadow:0 8px 0 var(--ink);background:var(--water-deep);align-self:start}
+#stage{display:block;width:100%;height:auto}
+
+.panel{
+  background:var(--panel);border:4px solid var(--ink);border-radius:26px;box-shadow:0 8px 0 var(--ink);
+  padding:20px 22px 18px;display:flex;flex-direction:column;min-height:440px
+}
+.panel .content{flex:1}
+.panel h2{margin:12px 0 8px;font-size:28px;line-height:1.15;font-weight:600}
+.panel p{margin:0 0 10px}
+.prog{display:flex;gap:4px}
+.prog i{flex:1;height:9px;border-radius:6px;background:#CFE8EA;border:2px solid var(--ink)}
+.prog i.on{background:var(--leaf)}
+.vocab{background:#E8F9D9;border:3px solid var(--ink);border-radius:16px;padding:9px 14px;margin:12px 0;font-size:17px}
+.vocab b{font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px}
+
+.nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px;flex-wrap:wrap}
+.btn{
+  font-size:19px;font-weight:600;color:var(--ink);background:var(--sun);
+  border:3px solid var(--ink);border-radius:999px;padding:10px 24px;cursor:pointer;
+  box-shadow:0 4px 0 var(--ink);transition:transform .08s,box-shadow .08s;
+}
+.btn:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn.ghost{background:#fff}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,.clue:focus-visible,.opt:focus-visible{outline:4px solid #7B4FD8;outline-offset:3px}
+.btn.big{font-size:22px;padding:13px 30px}
+
+.clues{display:grid;gap:8px;margin:10px 0}
+.clue{
+  text-align:left;font:600 17px 'Fredoka',sans-serif;color:var(--ink);background:#fff;
+  border:3px solid var(--ink);border-radius:14px;padding:8px 12px;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;gap:10px
+}
+.clue.active{background:#FFF1B8}
+.clue.done .tick{visibility:visible}
+.tick{visibility:hidden;width:24px;height:24px;border-radius:50%;background:var(--leaf);border:2px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+.clue-text{background:#fff;border:3px dashed var(--ink);border-radius:14px;padding:10px 14px;min-height:92px;font-size:17px}
+.found{font-size:16px;margin:6px 0 0;font-weight:700}
+
+.cards{display:grid;gap:10px;margin:10px 0}
+.card{background:#fff;border:3px solid var(--ink);border-radius:16px;padding:10px 14px;font-size:17px}
+.card b{font-family:'Fredoka',sans-serif;font-weight:600;font-size:19px;display:block}
+.pill{display:inline-block;border:2px solid var(--ink);border-radius:999px;padding:0 10px;font-size:15px;font-weight:700;margin:3px 4px 0 0}
+.pill.m{background:#FFC2C2}.pill.c{background:#C4F0CB}
+.words{font-size:16px;margin-top:8px}
+
+.opts{display:grid;gap:10px;margin:12px 0}
+.opt{
+  text-align:left;font:700 17px 'Nunito',sans-serif;color:var(--ink);background:#fff;
+  border:3px solid var(--ink);border-radius:16px;padding:10px 14px;cursor:pointer;
+  box-shadow:0 3px 0 var(--ink)
+}
+.opt:disabled{cursor:default}
+.opt.correct{background:#CDF5C6}
+.opt.wrong{background:#FFD2CD}
+.feedback{min-height:70px;background:#fff;border:3px dashed var(--ink);border-radius:14px;padding:9px 13px;font-size:17px}
+.feedback strong{font-family:'Fredoka',sans-serif;font-weight:600}
+.badges{display:flex;gap:8px;margin:10px 0}
+.badge{width:42px;height:42px;border-radius:50%;border:3px solid var(--ink);background:#D8E8EA;display:flex;align-items:center;justify-content:center;font-weight:700}
+.badge.on{background:var(--sun)}
+
+/* ---------- Stage animation ---------- */
+.mover{transition:transform 1.8s cubic-bezier(.5,0,.2,1),opacity .8s ease}
+.bob{animation:bob 3.2s ease-in-out infinite}
+#bactC .bob{animation-delay:-1.4s}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.eye{animation:blink 5s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.bub{animation:rise 14s linear infinite;opacity:.5}
+@keyframes rise{from{transform:translateY(40px)}to{transform:translateY(-480px)}}
+.bounce{animation:squish .5s ease}
+@keyframes squish{0%{transform:scale(1)}35%{transform:scale(1.07,.93)}70%{transform:scale(.97,1.04)}100%{transform:scale(1)}}
+
+.bulge{opacity:0;transform:scale(.3);transform-box:fill-box;transform-origin:center;transition:opacity .8s,transform 1.4s ease}
+.bulgeOn .bulge{opacity:1;transform:scale(1)}
+.nuc{opacity:0;transition:opacity 1.2s}
+.nucOn .nuc{opacity:1}
+#sun{opacity:0;transition:opacity 1.2s}
+.sunOn #sun{opacity:1}
+.rays{animation:spin 24s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#beam{opacity:0;transition:opacity 1s;animation:dash 1.2s linear infinite}
+.sunOn.chloroOn #beam{opacity:.85}
+@keyframes dash{to{stroke-dashoffset:-36}}
+
+.vesicle{opacity:0;fill:rgba(255,181,167,.3);stroke:#FF9E8F;stroke-width:3;transition:opacity 1s,stroke .3s}
+.vesA #bactA .vesicle,.vesC #bactC .vesicle{opacity:1}
+.cristae,.thyl,.sparks,.sugar{opacity:0;transition:opacity .9s}
+.mitoOn #bactA .cristae,.mitoOn #bactA .sparks{opacity:1}
+.chloroOn #bactC .thyl,.chloroOn #bactC .sugar{opacity:1}
+.spark{animation:floatup 2.4s ease-in infinite}
+.spark:nth-child(2){animation-delay:.8s}
+.spark:nth-child(3){animation-delay:1.6s}
+@keyframes floatup{0%{transform:translateY(8px);opacity:0}30%{opacity:1}100%{transform:translateY(-14px);opacity:0}}
+
+.dnaRing,.ribo,.twin{opacity:0;transition:opacity .4s}
+.evidence.ev-dna .dnaRing{opacity:1;stroke:var(--sun);stroke-width:3;animation:pulse 1s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.evidence.ev-ribo .ribo{opacity:1}
+.evidence.ev-mem .vesicle{stroke:var(--sun);stroke-width:6;opacity:1}
+.evidence.ev-div .bodyg{animation:splitBody 2s ease-in-out infinite}
+.evidence.ev-div .twin{animation:splitTwin 2s ease-in-out infinite}
+.evidence .cristae,.evidence .thyl{opacity:.2}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
+@keyframes splitBody{0%,100%{transform:translateX(0) scaleX(1)}50%{transform:translateX(-17px) scaleX(.75)}}
+@keyframes splitTwin{0%,100%{transform:translateX(0) scaleX(.75);opacity:0}50%{transform:translateX(17px) scaleX(.75);opacity:1}}
+
+.lab{font:600 19px 'Fredoka',sans-serif;fill:#fff;stroke:#0E3A5C;stroke-width:5;paint-order:stroke;stroke-linejoin:round;text-anchor:middle;opacity:0;animation:labIn .6s .7s forwards}
+@keyframes labIn{to{opacity:1}}
+
+
+
+/* ---------- Notebook shell ---------- */
+:root{--red:#C8102E}
+[hidden]{display:none!important}
+.red{color:var(--red);font-weight:700}
+.brand{background:none;border:0;padding:0;margin:0;cursor:pointer;display:flex;align-items:center;gap:12px;font:inherit;color:inherit;text-align:left}
+.brand:focus-visible{outline:4px solid #FFD23F;outline-offset:4px;border-radius:12px}
+.meter{margin-left:auto;display:flex;align-items:center;gap:10px;color:#fff;font:600 16px 'Fredoka',sans-serif}
+.bar{width:150px;height:14px;border-radius:9px;background:rgba(255,255,255,.22);border:3px solid var(--ink);overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--leaf);transition:width .4s}
+
+.trail{display:flex;gap:4px;overflow-x:auto;padding:4px 2px 16px;margin:0 0 4px}
+.stop{flex:1 0 100px;min-width:94px;background:none;border:0;cursor:pointer;color:#fff;font:600 14px/1.15 'Fredoka',sans-serif;
+  display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px 2px;position:relative}
+.stop:not(:last-child)::after{content:"";position:absolute;top:27px;left:calc(50% + 28px);width:calc(100% - 56px);height:5px;border-radius:3px;background:rgba(255,255,255,.3)}
+.pad{width:46px;height:46px;border-radius:50%;background:#CFE8EA;color:var(--ink);border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink);
+  display:flex;align-items:center;justify-content:center;font:600 20px 'Fredoka',sans-serif;transition:transform .15s}
+.stop:hover .pad{transform:translateY(-2px)}
+.stop.done .pad,.pad.done{background:var(--leaf)}
+.stop.cur .pad{background:var(--sun);outline:4px solid #fff;outline-offset:2px}
+.stop.done.cur .pad{background:var(--leaf)}
+.stop:focus-visible{outline:4px solid #FFD23F;outline-offset:2px;border-radius:12px}
+.pad.small{width:34px;height:34px;font-size:16px;box-shadow:0 3px 0 var(--ink);flex:none}
+
+.paper{background:#FFFDF6;border:4px solid var(--ink);border-radius:26px;box-shadow:0 8px 0 var(--ink);
+  padding:26px 36px 30px;max-width:1000px;margin:0 auto;line-height:1.6}
+.paper h2{font:600 36px/1.15 'Fredoka',sans-serif;margin:4px 0 6px}
+.paper h3{font:600 24px 'Fredoka',sans-serif;margin:24px 0 6px;padding-bottom:3px;border-bottom:3px dotted #B7D8DC}
+.paper ul,.paper ol{margin:8px 0;padding-left:26px}
+.paper li{margin:7px 0}
+.kick{font:600 15px 'Fredoka',sans-serif;color:#3F7186;text-transform:uppercase;letter-spacing:.06em}
+.lead{font-size:20px;margin:4px 0 10px}
+.legend{display:inline-block;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:2px 16px;font-size:16px;margin:4px 0 6px}
+table.cmp{width:100%;border-collapse:collapse;margin:12px 0;font-size:17px}
+table.cmp th{background:var(--ink);color:#fff;font:600 17px 'Fredoka',sans-serif;padding:8px 12px;text-align:left}
+table.cmp td{border:2px solid var(--ink);padding:7px 12px;vertical-align:top;background:#fff}
+table.cmp td:first-child{font-weight:700;background:#E8F7F5;color:var(--ink)}
+.fig{margin:16px 0;background:#E6F7F7;border:3px solid var(--ink);border-radius:18px;padding:10px}
+.fig svg{display:block;width:100%;height:auto}
+.legendlist{display:grid;grid-template-columns:1fr 1fr;gap:6px 24px;font-size:16px}
+.legendlist ol{margin:4px 0}
+.strategies{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0}
+.strat{border:3px solid var(--ink);border-radius:16px;padding:12px 16px;background:#fff}
+.strat b{display:block;font:600 20px 'Fredoka',sans-serif;color:var(--ink);margin-bottom:2px}
+.qcard{background:#fff;border:3px solid var(--ink);border-radius:18px;padding:12px 16px;margin:12px 0}
+.qcard.solved{background:#F1FBF0}
+.qcard h4{font:600 19px/1.3 'Fredoka',sans-serif;margin:0 0 8px}
+.qcard .opts{margin:8px 0}
+.qcard .feedback{min-height:0}
+.complete{background:#CDF5C6;border:3px solid var(--ink);border-radius:16px;padding:12px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:space-between;margin-top:12px}
+.lnav{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:24px;flex-wrap:wrap}
+.btn.small{font-size:16px;padding:6px 16px;box-shadow:0 3px 0 var(--ink)}
+.plist{list-style:none;padding:0!important;display:grid;gap:8px}
+.prow{display:flex;align-items:center;gap:12px;background:#fff;border:3px solid var(--ink);border-radius:14px;padding:6px 12px;margin:0!important}
+.pname{font:600 18px 'Fredoka',sans-serif;flex:1}
+.pstat{font-size:15px;color:#3F7186;font-weight:700}
+
+/* story panel (red notes) */
+.panel .mini{font-size:14px;margin:6px 0 0}
+.prog button{flex:1;height:14px;border-radius:7px;background:#CFE8EA;border:2px solid var(--ink);padding:0;cursor:pointer}
+.prog button.on{background:var(--leaf)}
+.prog button.cur{background:var(--sun)}
+.prog button:focus-visible{outline:3px solid #7B4FD8;outline-offset:2px}
+.vocab b{color:var(--red)}
+.clue-text{color:var(--ink);font-weight:500}
+.clue-text.ph{color:var(--ink);font-weight:500}
+.blue{color:#1D5FD1;font-weight:600}
+.kw{margin:6px 0 10px}
+.kw .red{display:inline-block;background:#FFEAEE;border:2px solid var(--red);border-radius:999px;padding:1px 14px;margin:4px 8px 4px 0;font-size:18px}
+ol.keys{padding-left:30px}
+ol.keys li{margin:14px 0}
+ol.keys li .red{display:inline-block;background:#FFEAEE;border:2px solid var(--red);border-radius:999px;padding:0 14px;font-size:19px;margin-bottom:3px}
+.strat .red{display:inline-block;background:#FFEAEE;border:2px solid var(--red);border-radius:999px;padding:1px 14px;margin-top:4px}
+.legend .red,.mini .red{font-weight:700}
+.fig figcaption{font-size:15px;margin:8px 4px 2px;color:#2D4A60;text-align:center}
+.fig.hero{padding:0;background:none;border:0;margin:14px 0}
+.fig.hero svg{border-radius:20px;border:3px solid var(--ink)}
+@media (max-width:700px){.strategies,.legendlist{grid-template-columns:1fr}.paper{padding:18px 16px}.meter{margin-left:0}}
+
+.swimrow{display:flex;align-items:center;gap:14px;margin:10px 0 12px;flex-wrap:wrap}
+.swimrow .found{margin:0}
+.perk{background:#FFF8D6;border:3px solid var(--ink);border-radius:14px;padding:10px 12px;margin:10px 0;font-size:14.5px;line-height:1.4}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font:600 13px 'Fredoka',sans-serif;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:999px;padding:3px 10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.chip.sel{background:var(--sun)}
+.chip:focus-visible{outline:4px solid #7B4FD8;outline-offset:2px}
+.chip .dot{width:12px;height:12px;border-radius:50%;border:2px solid var(--ink)}
+/* ---------- Cell Arena panel ---------- */
+.goals{list-style:none;padding:0!important;margin:8px 0!important}
+.goals li{display:flex;gap:8px;align-items:center;margin:5px 0!important;font-size:15px;line-height:1.3}
+.gbox{width:20px;height:20px;border:3px solid var(--ink);border-radius:6px;background:#fff;flex:none;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+.gdone .gbox{background:var(--leaf)}
+.pwlist{display:grid;gap:5px;margin:8px 0}
+.pw{display:grid;grid-template-columns:16px 1fr auto auto;gap:8px;align-items:center;background:#fff;border:3px solid var(--ink);border-radius:12px;padding:4px 10px;font-size:14px;opacity:.62}
+.pw.have{opacity:1}
+.pw .dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink)}
+.pw .pn{font:600 15px 'Fredoka',sans-serif}
+.pw .pk{font-size:12px;font-weight:700;color:#3F7186}
+.pw .pips i.on{background:var(--c)}
+.pw .pd{grid-column:1/-1;font-size:12.5px;line-height:1.3;color:#2D4A60}
+
+/* ---------- Feeding minute ---------- */
+#game{display:none;width:100%;height:auto;background:#16507A}
+.stage-frame.playing #stage{display:none}
+.stage-frame.playing #game{display:block}
+.pips{display:flex;gap:4px}
+.pips i{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:#D8E8EA}
+.tag{display:inline-block;background:var(--sun);border:2px solid var(--ink);border-radius:999px;padding:0 8px;font:700 12px 'Nunito',sans-serif;margin-left:8px;vertical-align:middle}
+.keys{font-size:15px}
+.res{margin:8px 0 0;padding-left:26px;font-size:17px}
+.res li{margin:2px 0}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important}
+  .mover{transition-duration:.01s}
+  .lab{opacity:1}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <button class="brand" data-act="home" aria-label="Home">
+      <span class="dot" aria-hidden="true"></span>
+      <h1>How Cells Teamed Up</h1>
+    </button>
+    <div class="meter" aria-live="polite"><span id="meterTxt">0 of 7 stops done</span><div class="bar"><i id="meterFill"></i></div></div>
+  </header>
+  <nav class="trail" id="trail" aria-label="Lesson map"></nav>
+
+  <article id="lesson" class="lesson"></article>
+
+  <main id="gamegrid" hidden>
+    <div class="stage-frame" id="frame">
+      <svg id="stage" viewBox="0 0 800 450" role="img" aria-label="A cartoon cell in a pond, swallowing bacteria that become its organelles">
+        <defs>
+          <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#4CC4D2"/><stop offset="1" stop-color="#16507A"/>
+          </linearGradient>
+          <radialGradient id="hostGrad" cx=".35" cy=".3" r=".9">
+            <stop offset="0" stop-color="#FFE3D9"/><stop offset="1" stop-color="#FFA797"/>
+          </radialGradient>
+        </defs>
+        <rect width="800" height="450" fill="url(#water)"/>
+        <g aria-hidden="true">
+          <circle class="bub" cx="60" cy="440" r="9" fill="#fff" style="animation-delay:-2s"/>
+          <circle class="bub" cx="190" cy="450" r="5" fill="#fff" style="animation-delay:-7s"/>
+          <circle class="bub" cx="330" cy="445" r="7" fill="#fff" style="animation-delay:-11s"/>
+          <circle class="bub" cx="610" cy="450" r="10" fill="#fff" style="animation-delay:-4s"/>
+          <circle class="bub" cx="730" cy="440" r="6" fill="#fff" style="animation-delay:-9s"/>
+          <circle class="bub" cx="520" cy="450" r="4" fill="#fff" style="animation-delay:-13s"/>
+        </g>
+
+        <!-- Sun -->
+        <g id="sun" transform="translate(70,70)">
+          <g class="rays" id="rays"></g>
+          <circle r="27" fill="#FFD23F" stroke="#E0A800" stroke-width="3"/>
+          <circle cx="-9" cy="-4" r="3" fill="#12304A"/><circle cx="9" cy="-4" r="3" fill="#12304A"/>
+          <path d="M-9,7 Q0,16 9,7" fill="none" stroke="#12304A" stroke-width="2.5" stroke-linecap="round"/>
+        </g>
+        <line id="beam" x1="100" y1="92" x2="438" y2="150" stroke="#FFD23F" stroke-width="5" stroke-linecap="round" stroke-dasharray="10 8"/>
+
+        <!-- Host cell -->
+        <g transform="translate(400,225)">
+          <g id="hostInner">
+            <ellipse class="bulge" cx="175" cy="15" rx="62" ry="46" fill="url(#hostGrad)" stroke="#E4705F" stroke-width="6"/>
+            <path d="M-170,0 C-170,-95 -90,-125 0,-125 C95,-125 170,-90 170,5 C170,100 90,125 0,122 C-95,120 -170,95 -170,0Z"
+                  fill="url(#hostGrad)" stroke="#E4705F" stroke-width="6" stroke-linejoin="round"/>
+            <!-- face -->
+            <g>
+              <g class="eye"><circle cx="-70" cy="-55" r="11" fill="#fff" stroke="#12304A" stroke-width="2.5"/><circle cx="-67" cy="-54" r="5.5" fill="#12304A"/></g>
+              <g class="eye"><circle cx="-25" cy="-55" r="11" fill="#fff" stroke="#12304A" stroke-width="2.5"/><circle cx="-22" cy="-54" r="5.5" fill="#12304A"/></g>
+              <circle cx="-88" cy="-36" r="7" fill="#FF8A8A" opacity=".55"/>
+              <circle cx="-7" cy="-36" r="7" fill="#FF8A8A" opacity=".55"/>
+              <path id="mouth" d="M-62,-34 Q-48,-20 -34,-34" fill="none" stroke="#7A2E2E" stroke-width="4" stroke-linecap="round"/>
+            </g>
+            <!-- nucleus (membrane fades in) + DNA (always there) -->
+            <circle class="nuc" cx="-60" cy="43" r="42" fill="rgba(205,184,255,.6)" stroke="#8E6BE0" stroke-width="4"/>
+            <circle class="nuc" cx="-42" cy="62" r="7" fill="#8E6BE0" opacity=".6"/>
+            <path d="M-88,43 q7,-16 14,0 t14,0 t14,0 t14,0" transform="translate(0,0)" fill="none" stroke="#7B4FD8" stroke-width="4.5" stroke-linecap="round"/>
+          </g>
+        </g>
+
+        <!-- Aerobic bacterium / mitochondrion -->
+        <g id="bactA" class="mover" style="transform:translate(690px,120px) scale(1.3);opacity:0">
+          <g class="bob">
+            <ellipse class="vesicle" rx="38" ry="24"/>
+            <ellipse class="twin" rx="30" ry="18" fill="#FF6B6B" stroke="#C94444" stroke-width="2.5"/>
+            <g class="bodyg">
+              <ellipse rx="30" ry="18" fill="#FF6B6B" stroke="#C94444" stroke-width="2.5"/>
+              <g class="cristae" fill="none" stroke="#B93A3A" stroke-width="2" stroke-linecap="round">
+                <path d="M-18,8 q4,-6 8,0 t8,0 t8,0 t8,0"/><path d="M-18,13 q4,-5 8,0 t8,0 t8,0 t8,0"/>
+              </g>
+              <circle class="dnaRing" cx="15" cy="-3" r="4.5" fill="none" stroke="#fff" stroke-width="2"/>
+              <g class="ribo" fill="#fff"><circle cx="-20" cy="2" r="1.8"/><circle cx="-15" cy="9" r="1.8"/><circle cx="-8" cy="12" r="1.8"/><circle cx="19" cy="9" r="1.8"/></g>
+              <circle cx="-9" cy="-5" r="3.8" fill="#fff"/><circle cx="-8.2" cy="-4.8" r="1.9" fill="#12304A"/>
+              <circle cx="4" cy="-5" r="3.8" fill="#fff"/><circle cx="4.8" cy="-4.8" r="1.9" fill="#12304A"/>
+              <path d="M-6,1 q5,5 10,0" fill="none" stroke="#7A2E2E" stroke-width="2" stroke-linecap="round"/>
+            </g>
+            <g class="sparks">
+              <polygon class="spark" transform="translate(-16,-26)" fill="#FFD23F" stroke="#E0A800" stroke-width=".8" points="0,-5 1.5,-1.5 5,0 1.5,1.5 0,5 -1.5,1.5 -5,0 -1.5,-1.5"/>
+              <polygon class="spark" transform="translate(0,-30)" fill="#FFD23F" stroke="#E0A800" stroke-width=".8" points="0,-5 1.5,-1.5 5,0 1.5,1.5 0,5 -1.5,1.5 -5,0 -1.5,-1.5"/>
+              <polygon class="spark" transform="translate(16,-26)" fill="#FFD23F" stroke="#E0A800" stroke-width=".8" points="0,-5 1.5,-1.5 5,0 1.5,1.5 0,5 -1.5,1.5 -5,0 -1.5,-1.5"/>
+            </g>
+          </g>
+        </g>
+
+        <!-- Cyanobacterium / chloroplast -->
+        <g id="bactC" class="mover" style="transform:translate(110px,370px) scale(1.3);opacity:0">
+          <g class="bob">
+            <ellipse class="vesicle" rx="38" ry="24"/>
+            <ellipse class="twin" rx="30" ry="18" fill="#5BD16B" stroke="#2E9E40" stroke-width="2.5"/>
+            <g class="bodyg">
+              <ellipse rx="30" ry="18" fill="#5BD16B" stroke="#2E9E40" stroke-width="2.5"/>
+              <g class="thyl" fill="#2E9E40">
+                <rect x="-19" y="6" width="9" height="3" rx="1.5"/><rect x="-19" y="10" width="9" height="3" rx="1.5"/>
+                <rect x="-4" y="6" width="9" height="3" rx="1.5"/><rect x="-4" y="10" width="9" height="3" rx="1.5"/>
+                <rect x="11" y="6" width="9" height="3" rx="1.5"/><rect x="11" y="10" width="9" height="3" rx="1.5"/>
+              </g>
+              <circle class="dnaRing" cx="15" cy="-3" r="4.5" fill="none" stroke="#fff" stroke-width="2"/>
+              <g class="ribo" fill="#fff"><circle cx="-20" cy="2" r="1.8"/><circle cx="-15" cy="9" r="1.8"/><circle cx="-8" cy="12" r="1.8"/><circle cx="19" cy="9" r="1.8"/></g>
+              <circle cx="-9" cy="-5" r="3.8" fill="#fff"/><circle cx="-8.2" cy="-4.8" r="1.9" fill="#12304A"/>
+              <circle cx="4" cy="-5" r="3.8" fill="#fff"/><circle cx="4.8" cy="-4.8" r="1.9" fill="#12304A"/>
+              <path d="M-6,1 q5,5 10,0" fill="none" stroke="#1F6B2D" stroke-width="2" stroke-linecap="round"/>
+            </g>
+            <g class="sugar" fill="#fff" stroke="#9AD7A3" stroke-width="1">
+              <rect class="spark" x="-21" y="-30" width="7" height="7" rx="1.5"/>
+              <rect class="spark" x="-3" y="-34" width="7" height="7" rx="1.5"/>
+              <rect class="spark" x="14" y="-30" width="7" height="7" rx="1.5"/>
+            </g>
+          </g>
+        </g>
+
+        <g id="labels" aria-hidden="true"></g>
+      </svg>
+      <canvas id="game" width="1600" height="900" aria-label="Cell Arena game"></canvas>
+    </div>
+
+    <section class="panel" id="panel" aria-live="polite"></section>
+  </main>
+</div>
+
+<script>
+
+(function(){
+  'use strict';
+  var NS = 'http://www.w3.org/2000/svg';
+  var stage = document.getElementById('stage');
+  var A = document.getElementById('bactA');
+  var C = document.getElementById('bactC');
+  var labelsG = document.getElementById('labels');
+  var panel = document.getElementById('panel');
+  var mouth = document.getElementById('mouth');
+  var hostInner = document.getElementById('hostInner');
+  var frame = document.getElementById('frame');
+  var canvas = document.getElementById('game');
+
+  // sun rays
+  (function(){
+    var g = document.getElementById('rays');
+    for (var i = 0; i < 12; i++){
+      var l = document.createElementNS(NS, 'line');
+      l.setAttribute('x1', 0); l.setAttribute('y1', -34);
+      l.setAttribute('x2', 0); l.setAttribute('y2', -46);
+      l.setAttribute('stroke', '#FFD23F'); l.setAttribute('stroke-width', 5);
+      l.setAttribute('stroke-linecap', 'round');
+      l.setAttribute('transform', 'rotate(' + (i * 30) + ')');
+      g.appendChild(l);
+    }
+  })();
+
+  /* ------------------------------------------------------------------
+     CONTENT
+  ------------------------------------------------------------------ */
+  var STORY = [
+    { title: 'Life starts simple',
+      body: ['Billions of years ago, every cell was tiny and simple. This ancestor cell has <span class="red">no nucleus</span>. Its DNA just floats around loose inside.'],
+      vocab: ['Prokaryote:', 'a cell with no nucleus and no membrane-wrapped organelles.'] },
+    { title: 'A new neighbor',
+      body: ['A smaller bacterium floats nearby. It has a special trick: it <span class="red">uses oxygen</span> to turn food into lots of energy.', 'Our big cell is hungry...'],
+      vocab: ['Aerobic:', 'uses oxygen to release energy from food.'] },
+    { title: 'Gulp!',
+      body: ['The big cell wraps around the bacterium and swallows it, the way a cell eats food.', 'Usually, a swallowed bacterium gets digested. But what if it did not?'],
+      vocab: ['Engulf:', 'to wrap around something and take it inside.'] },
+    { title: 'It survives!',
+      body: ['Scientists think that some swallowed bacteria were not digested. They kept living inside the big cell. <span class="blue">They were wrapped in a membrane from the host.</span>'],
+      vocab: ['Endosymbiosis:', '"endo" means inside, "symbiosis" means living together to help each other.'] },
+    { title: 'A great trade',
+      body: ['The bacterium makes extra energy for the cell. The cell gives it food and a safe home. Both win!', 'The bacterium became a <span class="red">mitochondrion</span>, the cell\u2019s power plant. <span class="blue">This took millions of years.</span>'],
+      vocab: ['Mitochondrion:', 'an organelle that makes energy the cell can use. (Plural: mitochondria)'] },
+    { title: 'A nucleus appears',
+      body: ['Around this time, the cell also built a <span class="red">nucleus</span>, a membrane bag that protects the DNA.', 'A cell with a nucleus and organelles is no longer a prokaryote. It is a eukaryote!'],
+      vocab: ['Eukaryote:', 'a cell with a nucleus and membrane-wrapped organelles.'] },
+    { title: 'A sunlight snack',
+      body: ['Later, our eukaryote meets another bacterium. This one is a <span class="red">cyanobacterium</span>. It can do photosynthesis: it uses sunlight to make sugar.'],
+      vocab: ['Photosynthesis:', 'using sunlight to make sugar and oxygen.'] },
+    { title: 'Gulp, round two',
+      body: ['Just like before, the cell swallows it, and it survives. <span class="blue">Now the cell has a tiny sugar factory inside.</span>'] },
+    { title: 'Meet the chloroplast',
+      body: ['That bacterium became a <span class="red">chloroplast</span>. It makes food for the cell using sunlight.', 'Only <span class="red">plants and algae</span> have chloroplasts.'],
+      vocab: ['Chloroplast:', 'an organelle that does photosynthesis.'] },
+    { title: 'Detective time',
+      body: ['How do we know this really happened? Scientists found clues that mitochondria and chloroplasts used to be bacteria. Check out all four clues.'] },
+    { title: 'Cells today',
+      body: ['All of this happened because of ancient teamwork. This idea is called the <span class="red">endosymbiotic theory</span>. <span class="blue">Lynn Margulis helped make it famous in 1967.</span>'] }
+  ];
+
+  var CLUES = [
+    { key: 'dna',  name: 'Their own DNA', keyword: 'Own DNA',
+      text: 'Mitochondria and chloroplasts have their own small, circular DNA, just like bacteria.',
+      extra: 'It is separate from the DNA in the nucleus.' },
+    { key: 'mem',  name: 'Two membranes', keyword: 'Two membranes',
+      text: 'They are wrapped in two membranes.',
+      extra: 'One is the bacterium\u2019s own. The other came from the host cell when it swallowed the bacterium.' },
+    { key: 'div',  name: 'They split on their own', keyword: 'Splits on its own',
+      text: 'They make more of themselves by splitting in two, the way bacteria do.',
+      extra: 'The cell does not build new ones from scratch.' },
+    { key: 'ribo', name: 'Bacteria-like ribosomes', keyword: 'Bacteria-like ribosomes',
+      text: 'Their ribosomes (the tiny machines that build proteins) look like bacterial ribosomes, not like the ones in the rest of the cell.',
+      extra: 'One more sign that they came from bacteria.' }
+  ];
+
+  var ENDO_CHECK = [
+    { q: 'Which two organelles came from endosymbiosis?',
+      opts: ['Mitochondria and chloroplasts', 'Nucleus and ribosomes', 'Golgi bodies and vacuoles', 'Cell wall and cell membrane'],
+      why: 'Mitochondria and chloroplasts were once free-living bacteria that moved inside a bigger cell.',
+      hint: 'Look back at the steps called "A great trade" and "Meet the chloroplast."' },
+    { q: 'Mitochondria split in two on their own, like bacteria do. What does that suggest?',
+      opts: ['They used to be free-living bacteria', 'They were never alive', 'They came from the nucleus', 'They are not important to the cell'],
+      why: 'Splitting in two on their own is one of the clues that they used to be bacteria.',
+      hint: 'Check the detective clue called "They split on their own."' },
+    { q: 'What kind of bacterium became the chloroplast?',
+      opts: ['A cyanobacterium that does photosynthesis', 'An archaeon from a hot spring', 'A bacterium that cannot use light', 'A virus'],
+      why: 'Cyanobacteria use sunlight to make sugar, which is exactly what chloroplasts do.',
+      hint: 'Look at the step called "A sunlight snack."' }
+  ];
+
+  var QUIZ = [
+    { q: 'Which type of cell keeps its DNA inside a nucleus?',
+      opts: ['Eukaryote', 'Prokaryote', 'Neither one', 'Both of them'],
+      why: 'Eukaryote means "true nucleus." Prokaryotes keep their DNA loose in the cytoplasm.' },
+    { q: 'Why can bacteria adapt to new conditions so quickly?',
+      opts: ['They reproduce fast and can share genes', 'They have many organelles', 'They are made of many cells', 'They have a nucleus'],
+      why: 'Fast reproduction means many generations, and sharing genes spreads helpful traits quickly.' },
+    { q: 'Which clue shows that mitochondria were once bacteria?',
+      opts: ['They have their own circular DNA and two membranes', 'They are green', 'They only live in plant cells', 'They are bigger than the nucleus'],
+      why: 'Their own circular DNA and double membrane match what we see in bacteria and in swallowed cells.' },
+    { q: 'Why were mitochondria so important for eukaryotes?',
+      opts: ['They gave cells lots of energy to grow bigger and more complex', 'They made cells smaller', 'They stored the DNA', 'They made sugar from sunlight'],
+      why: 'Scientists think the extra energy from mitochondria helped eukaryotes support more DNA and bigger bodies.' }
+  ];
+
+  /* ---------- diagrams ---------- */
+  function cellFigure(){
+    function mk(n, x, y){
+      return '<g transform="translate(' + x + ',' + y + ')"><circle r="11" fill="#fff" stroke="#12304A" stroke-width="2.5"/>' +
+             '<text y="4.5" text-anchor="middle" font-family="Fredoka,sans-serif" font-weight="600" font-size="14" fill="#12304A">' + n + '</text></g>';
+    }
+    var T = 'font-family="Fredoka,sans-serif" font-weight="600" fill="#12304A" text-anchor="middle"';
+    return '<svg viewBox="0 0 880 330" role="img" aria-label="A prokaryote cell and a eukaryote cell side by side">' +
+      '<text x="170" y="32" font-size="24" ' + T + '>Prokaryote</text>' +
+      '<text x="640" y="32" font-size="24" ' + T + '>Eukaryote</text>' +
+      '<text x="170" y="300" font-size="15" ' + T + '>(not to scale: eukaryotes are about 10x wider)</text>' +
+      // prokaryote
+      '<g transform="translate(170,175)">' +
+        '<path d="M118,0 q25,-28 50,0 t50,0" fill="none" stroke="#B07A5B" stroke-width="5" stroke-linecap="round"/>' +
+        '<rect x="-120" y="-55" width="240" height="110" rx="55" fill="#FFE3D9" stroke="#B07A5B" stroke-width="7"/>' +
+        '<rect x="-112" y="-47" width="224" height="94" rx="47" fill="none" stroke="#E4705F" stroke-width="3"/>' +
+        '<ellipse cx="0" cy="0" rx="62" ry="24" fill="rgba(142,107,224,.16)"/>' +
+        '<path d="M-44,0 q11,-30 22,0 t22,0 t22,0 t22,0" fill="none" stroke="#7B4FD8" stroke-width="5" stroke-linecap="round"/>' +
+        '<g fill="#12304A"><circle cx="-85" cy="-15" r="3.5"/><circle cx="-70" cy="18" r="3.5"/><circle cx="-62" cy="-28" r="3.5"/><circle cx="70" cy="-22" r="3.5"/><circle cx="82" cy="15" r="3.5"/><circle cx="55" cy="30" r="3.5"/><circle cx="-30" cy="32" r="3.5"/><circle cx="30" cy="-34" r="3.5"/><circle cx="-96" cy="6" r="3.5"/><circle cx="96" cy="-3" r="3.5"/></g>' +
+        mk(1, -100, -62) + mk(2, 0, -34) + mk(3, 78, -40) + mk(4, 205, -24) +
+      '</g>' +
+      // eukaryote
+      '<g transform="translate(640,180)">' +
+        '<ellipse rx="165" ry="125" fill="#FFE3D9" stroke="#E4705F" stroke-width="6"/>' +
+        '<circle cx="-30" cy="-10" r="48" fill="rgba(205,184,255,.75)" stroke="#8E6BE0" stroke-width="4"/>' +
+        '<circle cx="-20" cy="0" r="10" fill="#8E6BE0"/>' +
+        '<path d="M25,-28 q25,-15 40,0 t40,0 M25,-3 q25,-15 40,0 t40,0 M25,22 q25,-15 40,0 t40,0" fill="none" stroke="#E58CA8" stroke-width="5" stroke-linecap="round"/>' +
+        '<g fill="none" stroke="#F2B84B" stroke-width="6" stroke-linecap="round"><path d="M-135,-55 q25,-12 50,0"/><path d="M-135,-45 q25,-12 50,0"/><path d="M-135,-35 q25,-12 50,0"/><path d="M-135,-25 q25,-12 50,0"/></g>' +
+        '<g transform="translate(-95,58) rotate(-20)"><ellipse rx="30" ry="17" fill="#FF6B6B" stroke="#C94444" stroke-width="3"/><path d="M-16,3 q4,-8 8,0 t8,0 t8,0 t8,0" fill="none" stroke="#B93A3A" stroke-width="2"/></g>' +
+        '<g transform="translate(70,78) rotate(15)"><ellipse rx="30" ry="17" fill="#FF6B6B" stroke="#C94444" stroke-width="3"/><path d="M-16,3 q4,-8 8,0 t8,0 t8,0 t8,0" fill="none" stroke="#B93A3A" stroke-width="2"/></g>' +
+        '<g transform="translate(95,-72)"><ellipse rx="30" ry="17" fill="#5BD16B" stroke="#2E9E40" stroke-width="3"/><g fill="#2E9E40"><rect x="-19" y="-2" width="9" height="3" rx="1.5"/><rect x="-19" y="3" width="9" height="3" rx="1.5"/><rect x="-4" y="-2" width="9" height="3" rx="1.5"/><rect x="-4" y="3" width="9" height="3" rx="1.5"/><rect x="11" y="-2" width="9" height="3" rx="1.5"/><rect x="11" y="3" width="9" height="3" rx="1.5"/></g></g>' +
+        mk(1, -30, -62) + mk(2, -95, 32) + mk(3, 95, -100) + mk(4, 65, -48) + mk(5, -110, -72) +
+      '</g></svg>';
+  }
+
+  function growthFigure(){
+    var labels = ['Start', '20 min', '40 min', '1 hr', '1 hr 20', '1 hr 40', '2 hr', '2 hr 20', '2 hr 40'];
+    var T = 'font-family="Fredoka,sans-serif" fill="#12304A" text-anchor="middle"';
+    var s = '<svg viewBox="0 0 760 270" role="img" aria-label="Bar chart: one bacterium dividing every 20 minutes grows to 256 bacteria in 2 hours 40 minutes">';
+    s += '<text x="380" y="26" font-size="19" font-weight="600" ' + T + '>One bacterium dividing every 20 minutes (ideal conditions)</text>';
+    var base = 220, maxH = 150, bw = 52, gap = 26, x0 = 40;
+    for (var i = 0; i < 9; i++){
+      var n = Math.pow(2, i), h = Math.max(3, n / 256 * maxH), x = x0 + i * (bw + gap);
+      s += '<rect x="' + x + '" y="' + (base - h) + '" width="' + bw + '" height="' + h + '" rx="6" fill="#FF6B6B" stroke="#C94444" stroke-width="2.5"/>';
+      s += '<text x="' + (x + bw / 2) + '" y="' + (base - h - 8) + '" font-size="16" font-weight="600" ' + T + '>' + n + '</text>';
+      s += '<text x="' + (x + bw / 2) + '" y="' + (base + 20) + '" font-size="13" ' + T + '>' + labels[i] + '</text>';
+    }
+    return s + '<line x1="30" y1="220" x2="740" y2="220" stroke="#12304A" stroke-width="3"/></svg>';
+  }
+
+  /* ---------- teaching diagrams (cartoon) ---------- */
+  var FT = 'font-family="Fredoka,Nunito,sans-serif" fill="#12304A"';
+  function bug(x, y, s, col, edge, extra){
+    return '<g transform="translate(' + x + ',' + y + ') scale(' + s + ')">' +
+      '<ellipse rx="30" ry="18" fill="' + col + '" stroke="' + edge + '" stroke-width="2.5"/>' +
+      '<circle cx="-9" cy="-5" r="4" fill="#fff"/><circle cx="-8" cy="-4.8" r="2" fill="#12304A"/>' +
+      '<circle cx="5" cy="-5" r="4" fill="#fff"/><circle cx="6" cy="-4.8" r="2" fill="#12304A"/>' +
+      '<path d="M-6,3 q5,5 10,0" fill="none" stroke="#7A2E2E" stroke-width="2" stroke-linecap="round"/>' + (extra || '') + '</g>';
+  }
+  function beanMito(x, y, rot){
+    return '<g transform="translate(' + x + ',' + y + ') rotate(' + rot + ')"><ellipse rx="30" ry="17" fill="#FF6B6B" stroke="#C94444" stroke-width="3"/>' +
+           '<path d="M-16,3 q4,-8 8,0 t8,0 t8,0 t8,0" fill="none" stroke="#B93A3A" stroke-width="2"/></g>';
+  }
+  function beanChloro(x, y){
+    return '<g transform="translate(' + x + ',' + y + ')"><ellipse rx="30" ry="17" fill="#5BD16B" stroke="#2E9E40" stroke-width="3"/>' +
+           '<g fill="#2E9E40"><rect x="-19" y="-2" width="9" height="3" rx="1.5"/><rect x="-19" y="3" width="9" height="3" rx="1.5"/><rect x="-4" y="-2" width="9" height="3" rx="1.5"/><rect x="-4" y="3" width="9" height="3" rx="1.5"/><rect x="11" y="-2" width="9" height="3" rx="1.5"/><rect x="11" y="3" width="9" height="3" rx="1.5"/></g></g>';
+  }
+
+  function heroFigure(){
+    var bub = [[540,150,8],[610,235,6],[700,25,5],[830,110,9],[470,235,5],[870,235,6],[420,18,6]].map(function(b){
+      return '<circle cx="' + b[0] + '" cy="' + b[1] + '" r="' + b[2] + '" fill="#fff" opacity=".4"/>';
+    }).join('');
+    return '<svg viewBox="0 0 900 260" role="img" aria-label="A friendly eukaryote cell with mitochondria and a chloroplast inside. Two bacteria nearby ask, can we move in?">' +
+      '<defs><linearGradient id="heroWater" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4CC4D2"/><stop offset="1" stop-color="#16507A"/></linearGradient>' +
+      '<radialGradient id="heroHost" cx=".35" cy=".3" r=".9"><stop offset="0" stop-color="#FFE3D9"/><stop offset="1" stop-color="#FFA797"/></radialGradient></defs>' +
+      '<rect width="900" height="260" rx="20" fill="url(#heroWater)"/>' + bub +
+      '<g transform="translate(260,135)">' +
+        '<ellipse rx="175" ry="105" fill="url(#heroHost)" stroke="#E4705F" stroke-width="6"/>' +
+        '<circle cx="-55" cy="18" r="38" fill="rgba(205,184,255,.75)" stroke="#8E6BE0" stroke-width="4"/><circle cx="-44" cy="30" r="8" fill="#8E6BE0"/>' +
+        beanMito(70, 38, -15) + beanMito(-90, 72, 20) + beanChloro(100, -28) +
+        '<circle cx="-25" cy="-52" r="11" fill="#fff" stroke="#12304A" stroke-width="2.5"/><circle cx="-22" cy="-51" r="5.5" fill="#12304A"/>' +
+        '<circle cx="25" cy="-52" r="11" fill="#fff" stroke="#12304A" stroke-width="2.5"/><circle cx="28" cy="-51" r="5.5" fill="#12304A"/>' +
+        '<circle cx="-48" cy="-32" r="7" fill="#FF8A8A" opacity=".55"/><circle cx="48" cy="-32" r="7" fill="#FF8A8A" opacity=".55"/>' +
+        '<path d="M-18,-28 Q0,-10 18,-28" fill="none" stroke="#7A2E2E" stroke-width="4" stroke-linecap="round"/>' +
+      '</g>' +
+      bug(560, 105, 1.3, '#FF6B6B', '#C94444') + bug(650, 185, 1.3, '#5BD16B', '#2E9E40') +
+      bug(750, 95, 1.1, '#FF6B6B', '#C94444') + bug(820, 190, 1.1, '#5BD16B', '#2E9E40') +
+      '<g><rect x="495" y="14" width="190" height="38" rx="14" fill="#fff" stroke="#12304A" stroke-width="3"/>' +
+      '<path d="M545,51 L552,72 L568,51" fill="#fff" stroke="#12304A" stroke-width="3" stroke-linejoin="round"/><rect x="546" y="48" width="21" height="6" fill="#fff"/>' +
+      '<text x="590" y="39" text-anchor="middle" font-size="16" font-weight="600" ' + FT + '>Can we move in?</text></g>' +
+      '</svg>';
+  }
+
+  function sizeFigure(){
+    var caps = '';
+    for (var i = 0; i < 10; i++){
+      caps += '<rect x="' + (292 + i * 30) + '" y="222" width="26" height="22" rx="11" fill="#FFE3D9" stroke="#B07A5B" stroke-width="3"/>' +
+              '<path d="M' + (297 + i * 30) + ',233 q4,-8 8,0 t8,0" fill="none" stroke="#7B4FD8" stroke-width="2"/>';
+    }
+    return '<svg viewBox="0 0 880 300" role="img" aria-label="About ten bacteria fit side by side across the width of one eukaryotic cell">' +
+      '<ellipse cx="440" cy="90" rx="150" ry="70" fill="#FFE3D9" stroke="#E4705F" stroke-width="6"/>' +
+      '<circle cx="410" cy="90" r="30" fill="rgba(205,184,255,.75)" stroke="#8E6BE0" stroke-width="4"/><circle cx="418" cy="98" r="7" fill="#8E6BE0"/>' +
+      beanMito(490, 70, -15) + beanMito(375, 130, 15) + beanChloro(500, 118) +
+      '<g stroke="#12304A" stroke-width="2.5" stroke-dasharray="6 5"><line x1="290" y1="90" x2="290" y2="215"/><line x1="590" y1="90" x2="590" y2="215"/></g>' +
+      caps +
+      '<text x="140" y="82" text-anchor="middle" font-size="19" font-weight="600" ' + FT + '>One eukaryotic cell</text>' +
+      '<text x="140" y="106" text-anchor="middle" font-size="17" ' + FT + '>about 30 micrometers wide</text>' +
+      '<text x="745" y="84" text-anchor="middle" font-size="19" font-weight="600" ' + FT + '>Eukaryotes are about</text>' +
+      '<text x="745" y="110" text-anchor="middle" font-size="26" font-weight="600" fill="#1D5FD1" font-family="Fredoka,Nunito,sans-serif">10 times wider</text>' +
+      '<text x="440" y="272" text-anchor="middle" font-size="19" font-weight="600" ' + FT + '>10 prokaryotes fit side by side</text>' +
+      '<text x="440" y="294" text-anchor="middle" font-size="16" ' + FT + '>about 3 micrometers each (typical sizes)</text>' +
+      '</svg>';
+  }
+
+  function cityFigure(){
+    function lab(cx, name, as, l1, l2, fs){
+      return '<text x="' + cx + '" y="285" text-anchor="middle" font-size="' + (fs || 18) + '" font-weight="600" ' + FT + '>' + name + '</text>' +
+             '<text x="' + cx + '" y="307" text-anchor="middle" font-size="16" font-weight="600" fill="#1D5FD1" font-family="Fredoka,Nunito,sans-serif">= ' + as + '</text>' +
+             '<text x="' + cx + '" y="329" text-anchor="middle" font-size="14" ' + FT + '>' + l1 + '</text>' +
+             (l2 ? '<text x="' + cx + '" y="347" text-anchor="middle" font-size="14" ' + FT + '>' + l2 + '</text>' : '');
+    }
+    function win(x, y){ return '<rect x="' + x + '" y="' + y + '" width="12" height="14" rx="2" fill="#BFE9F5" stroke="#12304A" stroke-width="2"/>'; }
+    var hall = '<g transform="translate(130,250)">' +
+      '<rect x="-55" y="-80" width="110" height="80" fill="#fff" stroke="#12304A" stroke-width="3"/>' +
+      '<polygon points="-65,-80 0,-125 65,-80" fill="#CDB8FF" stroke="#8E6BE0" stroke-width="4" stroke-linejoin="round"/>' +
+      '<line x1="0" y1="-125" x2="0" y2="-148" stroke="#12304A" stroke-width="3"/><polygon points="0,-148 22,-141 0,-134" fill="#FF6B6B" stroke="#12304A" stroke-width="2"/>' +
+      '<g stroke="#12304A" stroke-width="5"><line x1="-38" y1="-72" x2="-38" y2="-4"/><line x1="-14" y1="-72" x2="-14" y2="-4"/><line x1="14" y1="-72" x2="14" y2="-4"/><line x1="38" y1="-72" x2="38" y2="-4"/></g>' +
+      '<rect x="-9" y="-36" width="18" height="36" rx="3" fill="#8E6BE0" stroke="#12304A" stroke-width="2.5"/></g>';
+    var power = '<g transform="translate(295,250)">' +
+      '<rect x="-55" y="-70" width="85" height="70" fill="#FFC2C2" stroke="#C94444" stroke-width="3"/>' +
+      '<rect x="30" y="-115" width="26" height="115" fill="#FF9E9E" stroke="#C94444" stroke-width="3"/>' +
+      '<circle cx="46" cy="-130" r="10" fill="#fff" opacity=".85"/><circle cx="56" cy="-148" r="8" fill="#fff" opacity=".7"/>' +
+      '<polygon points="-12,-62 -26,-34 -14,-34 -20,-8 4,-42 -9,-42 2,-62" fill="#FFD23F" stroke="#C99700" stroke-width="2.5" stroke-linejoin="round"/>' +
+      '<rect x="12" y="-30" width="12" height="30" rx="2" fill="#C94444"/></g>';
+    var factory = '<g transform="translate(460,250)">' +
+      '<path d="M-58,-55 L-58,-92 L-26,-55 L-26,-92 L6,-55 L6,-92 L38,-55 Z" fill="#F9D2DE" stroke="#C75A7C" stroke-width="3" stroke-linejoin="round"/>' +
+      '<rect x="-58" y="-55" width="100" height="55" fill="#F9D2DE" stroke="#C75A7C" stroke-width="3"/>' +
+      '<rect x="42" y="-100" width="18" height="100" fill="#E58CA8" stroke="#C75A7C" stroke-width="3"/>' +
+      '<circle cx="51" cy="-114" r="9" fill="#fff" opacity=".8"/>' + win(-48, -40) + win(-28, -40) + win(-8, -40) +
+      '<rect x="14" y="-26" width="20" height="26" fill="#C75A7C"/></g>';
+    var post = '<g transform="translate(625,250)">' +
+      '<rect x="-55" y="-75" width="110" height="75" fill="#FFF1B8" stroke="#D9A400" stroke-width="3"/>' +
+      '<rect x="-62" y="-90" width="124" height="16" rx="3" fill="#F2B84B" stroke="#D9A400" stroke-width="3"/>' +
+      '<rect x="-30" y="-64" width="60" height="38" rx="3" fill="#fff" stroke="#12304A" stroke-width="2.5"/>' +
+      '<polyline points="-30,-64 0,-42 30,-64" fill="none" stroke="#12304A" stroke-width="2.5" stroke-linejoin="round"/>' +
+      '<rect x="-9" y="-22" width="18" height="22" fill="#D9A400"/></g>';
+    var solar = '<g transform="translate(790,250)">' +
+      '<circle cx="40" cy="-118" r="18" fill="#FFD23F" stroke="#E0A800" stroke-width="3"/>' +
+      '<g stroke="#FFD23F" stroke-width="4" stroke-linecap="round"><line x1="40" y1="-146" x2="40" y2="-154"/><line x1="12" y1="-118" x2="4" y2="-118"/><line x1="16" y1="-138" x2="10" y2="-144"/><line x1="64" y1="-138" x2="70" y2="-144"/></g>' +
+      '<g fill="#3E7BD8" stroke="#12304A" stroke-width="3" stroke-linejoin="round">' +
+        '<polygon points="-62,-30 -22,-52 -2,-52 -42,-30"/><polygon points="-18,-30 22,-52 42,-52 2,-30"/><polygon points="26,-30 66,-52 86,-52 46,-30"/></g>' +
+      '<g stroke="#BFE0FF" stroke-width="1.5"><line x1="-32" y1="-48" x2="-22" y2="-31"/><line x1="12" y1="-48" x2="22" y2="-31"/><line x1="56" y1="-48" x2="66" y2="-31"/></g>' +
+      '<g stroke="#12304A" stroke-width="4"><line x1="-42" y1="-30" x2="-42" y2="0"/><line x1="2" y1="-30" x2="2" y2="0"/><line x1="46" y1="-30" x2="46" y2="0"/></g>' +
+      '<rect x="-70" y="-4" width="170" height="8" rx="4" fill="#5BD16B" stroke="#2E9E40" stroke-width="2"/></g>';
+    return '<svg viewBox="0 0 900 440" role="img" aria-label="A eukaryotic cell drawn as a city: nucleus is city hall, mitochondrion is the power plant, endoplasmic reticulum is the factory, Golgi body is the post office, chloroplast is the solar farm, and the cell membrane is the city wall">' +
+      '<rect x="14" y="14" width="872" height="412" rx="54" fill="#FFE3D9" stroke="#E4705F" stroke-width="8"/>' +
+      '<rect x="40" y="250" width="820" height="6" rx="3" fill="#D9B8A8"/>' +
+      '<g><rect x="1" y="206" width="30" height="50" rx="14" fill="#8E5A3C" stroke="#12304A" stroke-width="3"/><line x1="16" y1="212" x2="16" y2="256" stroke="#12304A" stroke-width="2"/></g>' +
+      '<g><rect x="869" y="206" width="30" height="50" rx="14" fill="#8E5A3C" stroke="#12304A" stroke-width="3"/><line x1="884" y1="212" x2="884" y2="256" stroke="#12304A" stroke-width="2"/></g>' +
+      hall + power + factory + post + solar +
+      lab(130, 'Nucleus', 'City hall', 'keeps the plans', '(the DNA)') +
+      lab(295, 'Mitochondrion', 'Power plant', 'makes energy', '') +
+      lab(460, 'ER', 'Factory', 'builds products', '(proteins)') +
+      lab(625, 'Golgi body', 'Post office', 'packages and', 'ships proteins') +
+      lab(790, 'Chloroplast', 'Solar farm', 'makes sugar from', 'sunlight (plants, algae)') +
+      '<text x="450" y="378" text-anchor="middle" font-size="16" ' + FT + '>ER means endoplasmic reticulum.</text>' +
+      '<text x="450" y="403" text-anchor="middle" font-size="17" font-weight="600" ' + FT + '>The cell membrane is the city wall with gates. The cytoplasm is the streets.</text>' +
+      '</svg>';
+  }
+
+  function extremoFigure(){
+    var W = 430, H = 200;
+    function panel(id, x, y, inner, label){
+      return '<g transform="translate(' + x + ',' + y + ')"><clipPath id="' + id + '"><rect width="' + W + '" height="' + H + '" rx="18"/></clipPath>' +
+        '<g clip-path="url(#' + id + ')">' + inner + '</g>' +
+        '<rect width="' + W + '" height="' + H + '" rx="18" fill="none" stroke="#12304A" stroke-width="4"/>' +
+        '<rect x="12" y="12" width="' + (label.length * 10.5 + 26) + '" height="32" rx="16" fill="#fff" stroke="#12304A" stroke-width="3"/>' +
+        '<text x="25" y="34" font-size="17" font-weight="600" ' + FT + '>' + label + '</text></g>';
+    }
+    var hot = '<rect width="430" height="200" fill="#BFE9F5"/><rect y="115" width="430" height="85" fill="#C98B5B"/>' +
+      '<ellipse cx="215" cy="140" rx="185" ry="52" fill="#F4B942"/><ellipse cx="215" cy="140" rx="140" ry="38" fill="#7FD8C9"/><ellipse cx="215" cy="140" rx="92" ry="24" fill="#3FB8D9"/>' +
+      '<g fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".8"><path d="M170,100 q-14,-18 0,-34 t0,-30"/><path d="M225,98 q-14,-18 0,-34 t0,-30"/><path d="M275,102 q-14,-18 0,-34 t0,-30"/></g>' +
+      '<g fill="#fff" opacity=".8"><circle cx="150" cy="150" r="4"/><circle cx="262" cy="146" r="5"/><circle cx="196" cy="156" r="3"/></g>' +
+      bug(215, 140, 1.15, '#FF6B6B', '#C94444', '<path d="M24,-14 q4,8 0,12 q-4,-4 0,-12 z" fill="#4CC9F0" stroke="#1B8FB5" stroke-width="1.5"/>');
+    var ice = '<rect width="430" height="200" fill="#DDF3FA"/>' +
+      '<polygon points="30,200 60,120 110,100 150,130 170,200" fill="#fff" stroke="#8FC8DC" stroke-width="4" stroke-linejoin="round"/>' +
+      '<polygon points="250,200 280,110 340,90 390,125 420,200" fill="#fff" stroke="#8FC8DC" stroke-width="4" stroke-linejoin="round"/>' +
+      '<polygon points="120,200 150,150 210,140 250,170 270,200" fill="#CDEBF6" stroke="#8FC8DC" stroke-width="4" stroke-linejoin="round"/>' +
+      '<g fill="#fff" stroke="#8FC8DC" stroke-width="2"><circle cx="70" cy="40" r="5"/><circle cx="210" cy="50" r="6"/><circle cx="330" cy="40" r="5"/><circle cx="395" cy="70" r="4"/><circle cx="140" cy="80" r="4"/></g>' +
+      bug(210, 128, 1.15, '#4FD1C5', '#2A9D93', '<rect x="-20" y="10" width="40" height="8" rx="4" fill="#FF6B6B" stroke="#C94444" stroke-width="1.5"/><path d="M-26,0 l-5,2 M26,0 l5,2" stroke="#12304A" stroke-width="2"/>');
+    var salt = '<rect width="430" height="200" fill="#FDE9F0"/><rect y="95" width="430" height="105" fill="#F6A6C1"/>' +
+      '<g fill="none" stroke="#fff" stroke-width="3" opacity=".7" stroke-linecap="round"><path d="M30,125 q15,-8 30,0 t30,0"/><path d="M280,165 q15,-8 30,0 t30,0"/><path d="M120,175 q15,-8 30,0 t30,0"/></g>' +
+      '<g fill="#fff" stroke="#C9C9D6" stroke-width="3" stroke-linejoin="round"><rect x="20" y="78" width="30" height="30" rx="3"/><rect x="58" y="88" width="22" height="22" rx="3"/><rect x="340" y="76" width="34" height="34" rx="3"/><rect x="384" y="90" width="22" height="22" rx="3"/></g>' +
+      '<g fill="#fff" stroke="#C9C9D6" stroke-width="2"><rect x="300" y="150" width="14" height="14" rx="2"/><rect x="95" y="152" width="12" height="12" rx="2"/><rect x="190" y="105" width="12" height="12" rx="2"/></g>' +
+      bug(215, 150, 1.15, '#B58CF5', '#7B4FD8', '<rect x="-12" y="-27" width="24" height="8" rx="3" fill="#fff" stroke="#C9C9D6" stroke-width="1.5"/>');
+    var vent = '<defs><linearGradient id="deepSea" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16507A"/><stop offset="1" stop-color="#06182B"/></linearGradient></defs>' +
+      '<rect width="430" height="200" fill="url(#deepSea)"/><path d="M0,170 Q80,150 160,170 T330,165 T430,172 L430,200 L0,200 Z" fill="#1D2B3A"/>' +
+      '<polygon points="250,200 262,100 302,100 316,200" fill="#2B3440" stroke="#0A1017" stroke-width="3" stroke-linejoin="round"/>' +
+      '<ellipse cx="282" cy="100" rx="22" ry="7" fill="#FF9F43"/>' +
+      '<g fill="#3A4452" opacity=".9"><circle cx="282" cy="82" r="14"/><circle cx="290" cy="58" r="18"/><circle cx="280" cy="30" r="20"/></g>' +
+      '<g fill="#fff" opacity=".45"><circle cx="90" cy="60" r="5"/><circle cx="130" cy="120" r="4"/><circle cx="60" cy="140" r="6"/><circle cx="370" cy="70" r="4"/></g>' +
+      bug(165, 150, 1.15, '#E4F25B', '#9AAA1E', '<circle r="30" cx="0" cy="0" fill="none" stroke="#FFF59A" stroke-width="3" opacity=".5"/>');
+    return '<svg viewBox="0 0 880 420" role="img" aria-label="Four extremophile scenes: bacteria living in a boiling hot spring, in ice, in a super salty lake, and at a deep-sea vent">' +
+      panel('pa', 0, 0, hot, 'Boiling hot spring') + panel('pb', 450, 0, ice, 'Frozen ice') +
+      panel('pc', 0, 220, salt, 'Super salty lake') + panel('pd', 450, 220, vent, 'Deep-sea vent') + '</svg>';
+  }
+
+  function timelineFigure(){
+    var X = function(t){ return Math.round(40 + (4.5 - t) / 4.5 * 800); };
+    function ms(t, above, name, date, anchor){
+      var x = X(t), a = anchor || 'middle', ty = above ? 62 : 158;
+      var stem = above ? '<line x1="' + x + '" y1="84" x2="' + x + '" y2="112" stroke="#12304A" stroke-width="3"/>'
+                       : '<line x1="' + x + '" y1="128" x2="' + x + '" y2="148" stroke="#12304A" stroke-width="3"/>';
+      var lines = (typeof name === 'string') ? [name] : name, nt = '';
+      for (var li = 0; li < lines.length; li++){
+        nt += '<text x="' + x + '" y="' + (ty - (lines.length - 1 - li) * 20) + '" text-anchor="' + a + '" font-size="17" font-weight="600" ' + FT + '>' + lines[li] + '</text>';
+      }
+      return stem + '<circle cx="' + x + '" cy="120" r="10" fill="#fff" stroke="#12304A" stroke-width="3.5"/>' + nt +
+        '<text x="' + x + '" y="' + (ty + 20) + '" text-anchor="' + a + '" font-size="14" ' + FT + '>' + date + '</text>';
+    }
+    return '<svg viewBox="0 0 900 250" role="img" aria-label="Timeline: Earth forms 4.5 billion years ago, first prokaryotes 3.5 billion, cyanobacteria make oxygen 2.4 billion, first eukaryotes about 2 billion, first many-celled life about 1.2 billion, then today">' +
+      '<rect x="40" y="112" width="800" height="16" rx="8" fill="#CFE8EA" stroke="#12304A" stroke-width="3"/>' +
+      '<rect x="' + X(3.5) + '" y="113.5" width="' + (X(2) - X(3.5)) + '" height="13" fill="#FF8A8A"/>' +
+      ms(4.5, true, 'Earth forms', '4.5 billion years ago', 'start') +
+      ms(3.5, false, 'First prokaryotes', '3.5 billion years ago') +
+      ms(2.4, true, ['Cyanobacteria', 'make oxygen'], '2.4 billion years ago') +
+      ms(2.0, false, 'First eukaryotes', 'about 2 billion years ago') +
+      ms(1.2, true, 'First many-celled life', 'about 1.2 billion years ago') +
+      ms(0, false, 'Today', '', 'end') +
+      '<g stroke="#12304A" stroke-width="3" fill="none"><path d="M' + X(3.5) + ',192 v8 H' + X(2) + ' v-8"/></g>' +
+      '<text x="' + Math.round((X(3.5) + X(2)) / 2) + '" y="224" text-anchor="middle" font-size="17" font-weight="600" ' + FT + '>Only prokaryotes for about 1.5 billion years</text>' +
+      '</svg>';
+  }
+
+  /* ---------- lessons (red = write down, blue = extra) ---------- */
+  var LESSONS = {
+    cells: {
+      title: 'Two Kinds of Cells',
+      lead: 'All living things are made of cells. Scientists sort every cell into one of two big groups.',
+      body: function(){ return '' +
+        '<h3>Two groups of cells</h3>' +
+        '<p>Every cell is either a <b>prokaryote</b> or a <b>eukaryote</b>. <span class="blue">The names come from Greek: pro = before, eu = true, karyon = nucleus.</span></p>' +
+        '<h3>Prokaryote</h3>' +
+        '<p>A simple cell. Its DNA floats loose inside.</p>' +
+        '<p class="kw"><span class="red">no nucleus</span><span class="red">no organelles</span><span class="red">small</span><span class="red">one cell</span></p>' +
+        '<p><span class="blue">Examples: bacteria and archaea. About 1 to 10 micrometers wide (a micrometer is one millionth of a meter).</span></p>' +
+        '<h3>Eukaryote</h3>' +
+        '<p>A complex cell. Its DNA is inside a nucleus, and it has organelles wrapped in membranes.</p>' +
+        '<p class="kw"><span class="red">nucleus</span><span class="red">organelles</span><span class="red">bigger</span><span class="red">one or many cells</span></p>' +
+        '<p><span class="blue">Examples: animals, plants, fungi, and protists. About 10 to 100 micrometers wide.</span></p>' +
+        '<h3>How big is the difference?</h3>' +
+        '<div class="fig">' + sizeFigure() + '</div>' +
+        '<h3>What every cell has</h3>' +
+        '<p>Prokaryotes and eukaryotes both have these four parts. The DNA is the instruction book, the membrane is the skin, the cytoplasm is the jelly inside, and ribosomes build proteins.</p>' +
+        '<p class="kw"><span class="red">DNA</span><span class="red">cell membrane</span><span class="red">cytoplasm</span><span class="red">ribosomes</span></p>' +
+        '<h3>Side by side</h3>' +
+        '<table class="cmp"><thead><tr><th>Feature</th><th>Prokaryote</th><th>Eukaryote</th></tr></thead><tbody>' +
+          '<tr><td>Nucleus</td><td>No</td><td>Yes</td></tr>' +
+          '<tr><td>Organelles with membranes</td><td>None</td><td>Many</td></tr>' +
+          '<tr><td>DNA</td><td><span class="blue">Usually one circular chromosome, floating loose</span></td><td><span class="blue">Several linear chromosomes inside the nucleus</span></td></tr>' +
+          '<tr><td>Size</td><td><span class="blue">About 1 to 10 micrometers</span></td><td><span class="blue">About 10 to 100 micrometers</span></td></tr>' +
+          '<tr><td>Body</td><td><span class="blue">Always one cell</span></td><td><span class="blue">One cell or many cells</span></td></tr>' +
+        '</tbody></table>' +
+        '<div class="fig">' + cellFigure() + '</div>' +
+        '<div class="legendlist">' +
+          '<div><b>Prokaryote parts</b><ol><li>Cell wall</li><li>Nucleoid (DNA floats loose)</li><li>Ribosomes (the dots)</li><li>Flagellum (a tail for swimming)</li></ol></div>' +
+          '<div><b>Eukaryote parts</b><ol><li>Nucleus</li><li>Mitochondrion</li><li>Chloroplast (plants and algae only)</li><li>Endoplasmic reticulum</li><li>Golgi body</li></ol></div>' +
+        '</div>'; },
+      qs: [
+        { q: 'Which structure do prokaryotic cells NOT have?',
+          opts: ['A nucleus', 'A cell membrane', 'Ribosomes', 'DNA'],
+          why: 'Prokaryotes keep their DNA loose in the cytoplasm. They have no nucleus.',
+          hint: 'Check the red key words under "Prokaryote."' },
+        { q: 'Which of these cells is a eukaryote?',
+          opts: ['A mushroom cell', 'An E. coli bacterium', 'A cyanobacterium', 'An archaeon from a hot spring'],
+          why: 'Fungi like mushrooms are eukaryotes. Bacteria and archaea are prokaryotes.',
+          hint: 'Animals, plants, fungi, and protists are eukaryotes. Look at the blue examples.' },
+        { q: 'What do ALL cells have, prokaryote or eukaryote?',
+          opts: ['DNA, a cell membrane, cytoplasm, and ribosomes', 'A nucleus and mitochondria', 'Chloroplasts and a cell wall', 'Many organelles wrapped in membranes'],
+          why: 'Those four parts are shared by every cell.',
+          hint: 'Look at the four red key words under "What every cell has."' }
+      ]
+    },
+
+    pro: {
+      title: 'Prokaryotes: Tiny and Adaptable',
+      lead: 'Prokaryotes look simple, but they are the most successful life on Earth. Here is why.',
+      body: function(){ return '' +
+        '<h3>Old and everywhere</h3>' +
+        '<p>Prokaryotes were the first cells on Earth. They live almost everywhere: soil, water, ice, and even inside your body.</p>' +
+        '<p><span class="blue">There are two groups: Bacteria and Archaea. Prokaryotes appeared at least 3.5 billion years ago. Eukaryotes showed up about 2 billion years ago.</span></p>' +
+        '<div class="fig">' + timelineFigure() + '<figcaption>Prokaryotes had the planet to themselves for a very long time.</figcaption></div>' +
+        '<h3>Why are prokaryotes so adaptable?</h3>' +
+        '<p>Write down these 5 key words:</p>' +
+        '<ol class="keys">' +
+          '<li><span class="red">Fast reproduction</span><br>They split in two again and again, so there are many generations in a short time. More generations means faster evolution. <span class="blue">Some divide every 20 minutes (binary fission).</span></li>' +
+          '<li><span class="red">Small size</span><br>A small cell takes in food and gets rid of waste quickly, and it needs very few resources. <span class="blue">It has lots of surface compared to its size.</span></li>' +
+          '<li><span class="red">Gene sharing</span><br>Cells can pass DNA to their neighbors, even to other species. <span class="blue">This is called horizontal gene transfer. It often travels on small DNA rings called plasmids, and it is how antibiotic resistance spreads.</span></li>' +
+          '<li><span class="red">Many energy sources</span><br>Some use sunlight, some eat other things, and some use chemicals. <span class="blue">Examples: cyanobacteria use sunlight, and some bacteria use sulfur or iron.</span></li>' +
+          '<li><span class="red">Extremophiles</span><br>Some live where almost nothing else can. <span class="blue">Boiling hot springs, very salty lakes, acid, deep-sea vents, and ice.</span></li>' +
+        '</ol>' +
+        '<div class="fig">' + extremoFigure() + '<figcaption>Extremophiles live in places that would be deadly for most other life.</figcaption></div>' +
+        '<div class="fig">' + growthFigure() + '</div>' +
+        '<p>Fast doubling adds up. One bacterium can become hundreds in just a few hours.</p>' +
+        '<h3>They changed the planet</h3>' +
+        '<p>About 2.4 billion years ago, cyanobacteria did so much photosynthesis that they filled the air with oxygen.</p>' +
+        '<p class="kw"><span class="red">cyanobacteria made oxygen</span></p>' +
+        '<p><span class="blue">That made it possible for cells that use oxygen, like the one that later became the mitochondrion.</span></p>' +
+        '<h3>Simple does not mean weak</h3>' +
+        '<p>Prokaryotes are the most numerous organisms on Earth. Being small and simple is a strength.</p>'; },
+      qs: [
+        { q: 'Why can bacteria evolve to fit new conditions so quickly?',
+          opts: ['They reproduce fast, so there are many generations in a short time', 'They have a nucleus that protects their DNA', 'They are bigger than other cells', 'They never change'],
+          why: 'More generations means more chances for helpful changes to show up and spread.',
+          hint: 'Look at the red key words "Fast reproduction."' },
+        { q: 'What is horizontal gene transfer?',
+          opts: ['Passing genes to a neighbor cell, even a different species', 'Passing genes only from parent to offspring', 'A cell swallowing another cell', 'Making sugar from sunlight'],
+          why: 'Cells can pass DNA sideways to neighbors, which spreads traits like antibiotic resistance.',
+          hint: 'Look at the red key words "Gene sharing."' },
+        { q: 'How does small size help a prokaryote?',
+          opts: ['It takes in food and gets rid of waste quickly', 'It lets the cell build many organelles', 'It makes the cell live longer than all others', 'It lets the cell make a nucleus'],
+          why: 'A small cell has a lot of surface compared to its size, so materials move in and out fast.',
+          hint: 'Look at the red key words "Small size."' },
+        { q: 'Which gas did cyanobacteria add to the air about 2.4 billion years ago?',
+          opts: ['Oxygen', 'Helium', 'Carbon monoxide', 'Methane'],
+          why: 'Cyanobacteria do photosynthesis, which releases oxygen.',
+          hint: 'Photosynthesis makes sugar and releases this gas.' }
+      ]
+    },
+
+    euk: {
+      title: 'Eukaryotes: Big and Complex',
+      lead: 'Eukaryotic cells are built with compartments. That design made big, complex life possible.',
+      body: function(){ return '' +
+        '<h3>Organelles</h3>' +
+        '<p>Eukaryotic cells have organelles: tiny compartments wrapped in membranes. Each one has a job.</p>' +
+        '<table class="cmp"><thead><tr><th>Organelle</th><th>Job</th><th>Found in</th></tr></thead><tbody>' +
+          '<tr><td>Nucleus</td><td><span class="red">holds DNA</span></td><td><span class="blue">All eukaryotes</span></td></tr>' +
+          '<tr><td>Mitochondrion</td><td><span class="red">makes energy</span></td><td><span class="blue">Almost all eukaryotes</span></td></tr>' +
+          '<tr><td>Chloroplast</td><td><span class="red">photosynthesis</span></td><td><span class="blue">Plants and algae</span></td></tr>' +
+          '<tr><td>Endoplasmic reticulum</td><td><span class="red">builds proteins</span></td><td><span class="blue">All eukaryotes</span></td></tr>' +
+          '<tr><td>Golgi body</td><td><span class="red">packages proteins</span></td><td><span class="blue">All eukaryotes</span></td></tr>' +
+        '</tbody></table>' +
+        '<h3>The cell as a city</h3>' +
+        '<div class="fig">' + cityFigure() + '</div>' +
+        '<h3>Why did complex cells take off?</h3>' +
+        '<p>Write down these 4 key words:</p>' +
+        '<ol class="keys">' +
+          '<li><span class="red">Division of labor</span><br>Compartments let many different jobs happen at once without getting in each other\u2019s way.</li>' +
+          '<li><span class="red">More energy</span><br>Mitochondria give a cell far more energy. <span class="blue">Scientists think this let cells afford much more DNA and bigger bodies.</span></li>' +
+          '<li><span class="red">Protected DNA</span><br>The nucleus keeps the DNA safe, so cells can carry many genes and switch them on and off carefully.</li>' +
+          '<li><span class="red">Many-celled bodies</span><br>Eukaryotic cells can team up and specialize, like muscle cells and nerve cells.</li>' +
+        '</ol>' +
+        '<h3>Are eukaryotes "better"?</h3>' +
+        '<p>Not at everything. Eukaryotes need lots of food and energy, and most reproduce slowly. Prokaryotes are tiny, quick, and tough. They are two different strategies.</p>' +
+        '<p class="kw"><span class="red">different strategies</span></p>' +
+        '<div class="strategies">' +
+          '<div class="strat"><b>Prokaryote strategy</b><span class="red">small, simple, fast</span></div>' +
+          '<div class="strat"><b>Eukaryote strategy</b><span class="red">large, complex, specialized</span></div>' +
+        '</div>' +
+        '<p><span class="blue">Complex does not mean better. Both kinds of cells have been hugely successful.</span></p>' +
+        '<p>So where did mitochondria and chloroplasts come from? That is the next stop: endosymbiosis.</p>'; },
+      qs: [
+        { q: 'What is the main job of mitochondria?',
+          opts: ['Release usable energy from food', 'Hold the DNA', 'Make sugar from sunlight', 'Package proteins'],
+          why: 'Mitochondria are the cell\u2019s power plants.',
+          hint: 'Check the organelle table.' },
+        { q: 'How do organelles help a eukaryotic cell?',
+          opts: ['Different jobs happen in separate compartments without interfering', 'They make the cell smaller', 'They let the cell skip using energy', 'They replace the cell membrane'],
+          why: 'Compartments keep different reactions from getting in each other\u2019s way.',
+          hint: 'Look at the red key words "Division of labor."' },
+        { q: 'Why do scientists think mitochondria helped eukaryotes get bigger and more complex?',
+          opts: ['They supplied lots of energy to support more DNA and bigger cells', 'They made the cell wall thicker', 'They gave cells a nucleus', 'They made cells reproduce faster'],
+          why: 'More energy per cell meant cells could afford more genes and larger bodies.',
+          hint: 'Look at the red key words "More energy."' },
+        { q: 'Which statement is the best summary?',
+          opts: ['Eukaryotes are complex, and prokaryotes are very successful in a different way', 'Eukaryotes are better than prokaryotes at everything', 'Prokaryotes are extinct', 'Prokaryotes evolved from eukaryotes'],
+          why: 'They are two different strategies, and both have been hugely successful.',
+          hint: 'Look at the red key words "different strategies."' }
+      ]
+    }
+  };
+
+  /* ------------------------------------------------------------------
+     SCENE STATES (one per story step)
+  ------------------------------------------------------------------ */
+  var LEFT_LABELS = [[340, 336, 'Nucleus']];
+  var RIGHT_LABELS = [[665, 168, 'Chloroplast'], [665, 272, 'Mitochondrion'], [340, 336, 'Nucleus']];
+
+  function st(prev, patch){
+    return {
+      a: Object.assign({}, prev.a, patch.a || {}),
+      c: Object.assign({}, prev.c, patch.c || {}),
+      flags: patch.flags || prev.flags,
+      labels: patch.labels || []
+    };
+  }
+  var S0 = { a: { x: 690, y: 120, o: 0, s: 1.3 }, c: { x: 110, y: 370, o: 0, s: 1.3 }, flags: [], labels: [[400, 78, 'Ancestor cell (prokaryote)'], [340, 314, 'Loose DNA']] };
+  var STATES = [S0];
+  STATES.push(st(STATES[0], { a: { o: 1 }, labels: [[690, 82, 'Aerobic bacterium'], [400, 78, 'Ancestor cell']] }));
+  STATES.push(st(STATES[1], { a: { x: 590, y: 240 }, flags: ['bulgeOn'], labels: [[600, 170, 'Engulfing!']] }));
+  STATES.push(st(STATES[2], { a: { x: 475, y: 265 }, flags: ['vesA'], labels: [[475, 222, 'Living inside!']] }));
+  STATES.push(st(STATES[3], { flags: ['vesA', 'mitoOn'], labels: [[475, 314, 'Mitochondrion']] }));
+  STATES.push(st(STATES[4], { flags: ['vesA', 'mitoOn', 'nucOn'], labels: [[400, 78, 'Eukaryote!'], [475, 314, 'Mitochondrion']].concat(LEFT_LABELS) }));
+  STATES.push(st(STATES[5], { c: { x: 150, y: 350, o: 1 }, flags: ['vesA', 'mitoOn', 'nucOn', 'sunOn'], labels: [[150, 398, 'Cyanobacterium'], [75, 138, 'Sunlight']] }));
+  STATES.push(st(STATES[6], { c: { x: 470, y: 165 }, flags: ['vesA', 'vesC', 'mitoOn', 'nucOn', 'sunOn'], labels: [[470, 212, 'Living inside again!']] }));
+  STATES.push(st(STATES[7], { flags: ['vesA', 'vesC', 'mitoOn', 'chloroOn', 'nucOn', 'sunOn'], labels: [[470, 212, 'Chloroplast'], [475, 314, 'Mitochondrion']].concat(LEFT_LABELS) }));
+  STATES.push(st(STATES[8], { a: { s: 1.7 }, c: { s: 1.7 }, flags: ['vesA', 'vesC', 'mitoOn', 'chloroOn', 'nucOn', 'sunOn', 'evidence'], labels: RIGHT_LABELS }));
+  STATES.push(st(STATES[9], { a: { s: 1.15 }, c: { s: 1.15 }, flags: ['vesA', 'vesC', 'mitoOn', 'chloroOn', 'nucOn', 'sunOn'], labels: RIGHT_LABELS }));
+  var FINAL_QUIET = st(STATES[10], { labels: [] });
+
+  var FLAG_LIST = ['bulgeOn', 'vesA', 'vesC', 'mitoOn', 'chloroOn', 'nucOn', 'sunOn', 'evidence'];
+
+  function setMover(el, p){
+    el.style.transform = 'translate(' + p.x + 'px,' + p.y + 'px) scale(' + p.s + ')';
+    el.style.opacity = p.o;
+  }
+  function applyState(s){
+    setMover(A, s.a); setMover(C, s.c);
+    FLAG_LIST.forEach(function(f){ stage.classList.toggle(f, s.flags.indexOf(f) !== -1); });
+    labelsG.innerHTML = '';
+    s.labels.forEach(function(l){
+      var t = document.createElementNS(NS, 'text');
+      t.setAttribute('x', l[0]); t.setAttribute('y', l[1]);
+      t.setAttribute('class', 'lab');
+      t.textContent = l[2];
+      labelsG.appendChild(t);
+    });
+  }
+  function setEv(key){
+    ['dna', 'mem', 'div', 'ribo'].forEach(function(k){ stage.classList.toggle('ev-' + k, k === key); });
+  }
+  function setMood(m){
+    var d = { smile: 'M-62,-34 Q-48,-20 -34,-34', big: 'M-68,-38 Q-48,-6 -28,-38 Z', oops: 'M-60,-26 Q-48,-38 -36,-26' }[m];
+    mouth.setAttribute('d', d);
+    mouth.setAttribute('fill', m === 'big' ? '#7A2E2E' : 'none');
+    if (m !== 'smile'){
+      hostInner.classList.remove('bounce');
+      void hostInner.getBoundingClientRect();
+      hostInner.classList.add('bounce');
+    }
+  }
+
+  /* ------------------------------------------------------------------
+     PROGRESS (saved on this computer)
+  ------------------------------------------------------------------ */
+  var STORE_KEY = 'cells-endosymbiosis-v1';
+  var STOPS = [
+    { id: 'cells', label: 'Two Kinds of Cells', type: 'lesson' },
+    { id: 'pro',   label: 'Prokaryotes',        type: 'lesson' },
+    { id: 'euk',   label: 'Eukaryotes',         type: 'lesson' },
+    { id: 'endo',  label: 'Endosymbiosis',      type: 'story' },
+    { id: 'quiz',  label: 'Bonus Quiz',         type: 'quiz' },
+    { id: 'arena', label: 'Cell Arena',         type: 'game' }
+  ];
+  var PASS = 3;
+
+  function defaultP(){
+    return { done: {}, ans: {}, last: 'home', storyIdx: 0, viewed: {}, quizBest: 0 };
+  }
+  function loadP(){
+    var p = defaultP();
+    try {
+      var raw = window.localStorage && window.localStorage.getItem(STORE_KEY);
+      if (raw){ var o = JSON.parse(raw); for (var k in o) if (o.hasOwnProperty(k)) p[k] = o[k]; }
+    } catch (e) {}
+    return p;
+  }
+  var P = loadP();
+  function saveP(){
+    try { if (window.localStorage) window.localStorage.setItem(STORE_KEY, JSON.stringify(P)); } catch (e) {}
+  }
+
+  var lessonEl = document.getElementById('lesson');
+  var gridEl = document.getElementById('gamegrid');
+  var trailEl = document.getElementById('trail');
+  var meterTxt = document.getElementById('meterTxt');
+  var meterFill = document.getElementById('meterFill');
+
+  var mode = 'home', cur = 'home';
+  var idx = 0, viewed = P.viewed || {}, currentClue = null;
+  var qi = 0, score = 0, quizOpts = [], answered = false;
+  var bonus = 0;
+  var QS = {};
+
+  function stopIndex(id){ for (var i = 0; i < STOPS.length; i++) if (STOPS[i].id === id) return i; return -1; }
+  function stopById(id){ return STOPS[stopIndex(id)]; }
+  function shuffle(a){
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  function toTop(){ if (window.scrollTo) window.scrollTo(0, 0); }
+  function showView(v){ lessonEl.hidden = (v !== 'lesson'); gridEl.hidden = (v !== 'game'); }
+  function doneCount(){ var n = 0; STOPS.forEach(function(s){ if (P.done[s.id]) n++; }); return n; }
+
+  function renderTrail(){
+    var h = '';
+    STOPS.forEach(function(s, i){
+      var d = !!P.done[s.id];
+      h += '<button class="stop' + (d ? ' done' : '') + (cur === s.id ? ' cur' : '') + '" data-act="go" data-stop="' + s.id +
+           '" aria-label="Stop ' + (i + 1) + ': ' + s.label + (d ? ', done' : '') + '"' + (cur === s.id ? ' aria-current="step"' : '') + '>' +
+           '<span class="pad">' + (d ? '&#10003;' : (i + 1)) + '</span><span class="lbl">' + s.label + '</span></button>';
+    });
+    trailEl.innerHTML = h;
+    var n = doneCount();
+    meterTxt.textContent = n + ' of ' + STOPS.length + ' stops done';
+    meterFill.style.width = Math.round(n / STOPS.length * 100) + '%';
+  }
+
+  function markDone(id){
+    if (!P.done[id]){ P.done[id] = true; saveP(); renderTrail(); }
+  }
+
+  /* ---------- questions with retry (lessons + story check) ---------- */
+  function buildQs(stop, list){
+    QS[stop] = list.map(function(q){
+      return { q: q.q, why: q.why, hint: q.hint,
+               opts: shuffle(q.opts.map(function(t, i){ return { t: t, ok: i === 0 }; })) };
+    });
+  }
+  function qsHtml(stop){
+    var a = P.ans[stop] || {};
+    return QS[stop].map(function(q, n){
+      var solved = !!a[n];
+      var h = '<div class="qcard' + (solved ? ' solved' : '') + '" id="q-' + stop + '-' + n + '"><h4>' + (n + 1) + '. ' + q.q + '</h4><div class="opts">';
+      q.opts.forEach(function(o, oi){
+        h += '<button class="opt' + (solved && o.ok ? ' correct' : '') + '"' + (solved ? ' disabled' : '') +
+             ' data-act="qans" data-stop="' + stop + '" data-q="' + n + '" data-i="' + oi + '">' + o.t + '</button>';
+      });
+      return h + '</div><div class="feedback" id="fb-' + stop + '-' + n + '" aria-live="polite">' +
+             (solved ? '<strong>Yes!</strong> ' + q.why : 'Pick an answer.') + '</div></div>';
+    }).join('');
+  }
+  function answeredCount(stop){
+    var a = P.ans[stop] || {}, n = 0;
+    for (var i = 0; i < QS[stop].length; i++) if (a[i]) n++;
+    return n;
+  }
+  function updateStatus(stop){
+    var el = document.getElementById('status-' + stop);
+    if (!el) return;
+    var n = QS[stop].length, c = answeredCount(stop), next = STOPS[stopIndex(stop) + 1];
+    if (c === n){
+      el.innerHTML = '<div class="complete"><span><b>Stop complete!</b> You earned the checkmark.</span>' +
+        (next ? '<button class="btn" data-act="go" data-stop="' + next.id + '">Next stop: ' + next.label + '</button>' : '') + '</div>';
+    } else {
+      el.innerHTML = '<p class="found">Questions correct: ' + c + ' of ' + n + '</p>';
+    }
+  }
+  function qAnswer(stop, n, oi){
+    if (!QS[stop] || !QS[stop][n]) return;
+    if (P.ans[stop] && P.ans[stop][n]) return;
+    var q = QS[stop][n], o = q.opts[oi];
+    var box = document.getElementById('q-' + stop + '-' + n);
+    var fb = document.getElementById('fb-' + stop + '-' + n);
+    var btns = box.querySelectorAll('.opt');
+    if (o.ok){
+      for (var k = 0; k < btns.length; k++){
+        btns[k].disabled = true;
+        if (q.opts[k].ok) btns[k].classList.add('correct');
+      }
+      P.ans[stop] = P.ans[stop] || {};
+      P.ans[stop][n] = true;
+      saveP();
+      box.classList.add('solved');
+      fb.innerHTML = '<strong>Yes!</strong> ' + q.why;
+      if (answeredCount(stop) === QS[stop].length) markDone(stop);
+      updateStatus(stop);
+    } else {
+      btns[oi].disabled = true;
+      btns[oi].classList.add('wrong');
+      fb.innerHTML = '<strong>Not quite.</strong> ' + q.hint + ' Try again.';
+    }
+  }
+
+  /* ---------- navigation ---------- */
+  function go(id){
+    if (id === 'home'){ renderHome(); return; }
+    var s = stopById(id);
+    if (!s) return;
+    leaveGame();
+    P.last = id; saveP();
+    if (s.type === 'lesson'){ renderLesson(id); return; }
+    showView('game'); cur = id; renderTrail();
+    if (id === 'endo'){ idx = P.storyIdx || 0; renderStory(); }
+    else if (id === 'quiz') startQuiz();
+    else if (id === 'arena') renderArenaIntro();
+    toTop();
+  }
+
+  function nextStop(){
+    for (var i = 0; i < STOPS.length; i++) if (!P.done[STOPS[i].id]) return STOPS[i];
+    return null;
+  }
+
+  function renderHome(){
+    leaveGame(); showView('lesson'); mode = 'home'; cur = 'home'; renderTrail();
+    var nx = nextStop(), n = doneCount();
+    var rows = STOPS.map(function(s, i){
+      var d = !!P.done[s.id];
+      return '<li class="prow"><span class="pad small' + (d ? ' done' : '') + '">' + (d ? '&#10003;' : (i + 1)) + '</span>' +
+             '<span class="pname">' + s.label + '</span><span class="pstat">' + (d ? 'Done' : 'Not yet') + '</span>' +
+             '<button class="btn ghost small" data-act="go" data-stop="' + s.id + '">' + (d ? 'Review' : 'Open') + '</button></li>';
+    }).join('');
+    lessonEl.innerHTML =
+      '<div class="paper">' +
+      '<h2>How Cells Teamed Up</h2>' +
+      '<p class="lead">Learn about prokaryotes, eukaryotes, and the ancient merger that built the cells in your body. Then use what you learned in a game.</p>' +
+      '<div class="fig hero">' + heroFigure() + '</div>' +
+      '<h3>How this works</h3>' +
+      '<ol>' +
+        '<li>Read each stop. <span class="red">Write the red key words in your notebook.</span> <span class="blue">Blue notes are extra, only if you want them.</span></li>' +
+        '<li>Answer the questions at the end of a stop. When you get them all right, the stop gets a green check.</li>' +
+        '<li>Jump to any stop using the trail at the top. Your progress is saved on this computer.</li>' +
+        '<li>The Bonus Quiz earns a head start in Cell Arena, the game where you eat cells to get their powers and evolve into a modern eukaryote.</li>' +
+      '</ol>' +
+      '<h3>Your trail (' + n + ' of ' + STOPS.length + ' done)</h3>' +
+      '<ul class="plist">' + rows + '</ul>' +
+      '<div class="lnav"><button class="btn ghost small" data-act="reset">Reset my progress</button>' +
+      (nx ? '<button class="btn big" data-act="go" data-stop="' + nx.id + '">' + (n ? 'Continue: ' : 'Start: ') + nx.label + '</button>'
+          : '<button class="btn big" data-act="go" data-stop="arena">All done! Play Cell Arena again</button>') +
+      '</div></div>';
+    toTop();
+  }
+
+  function renderLesson(id){
+    leaveGame(); showView('lesson'); mode = 'lesson'; cur = id; renderTrail();
+    var L = LESSONS[id], si = stopIndex(id);
+    buildQs(id, L.qs);
+    var prev = si > 0 ? STOPS[si - 1] : null, next = STOPS[si + 1];
+    lessonEl.innerHTML =
+      '<div class="paper">' +
+      '<div class="kick">Stop ' + (si + 1) + ' of ' + STOPS.length + '</div>' +
+      '<h2>' + L.title + '</h2><p class="lead">' + L.lead + '</p>' +
+      '<p class="legend"><span class="red">Red</span> = write it in your notebook. <span class="blue">Blue</span> = extra, only if you want it.</p>' +
+      L.body() +
+      '<h3>Check your understanding</h3>' +
+      '<p>Answer every question to earn this stop\u2019s checkmark. Wrong answers are okay. Just try again!</p>' +
+      '<div id="qs-' + id + '">' + qsHtml(id) + '</div><div id="status-' + id + '"></div>' +
+      '<div class="lnav"><button class="btn ghost" data-act="go" data-stop="' + (prev ? prev.id : 'home') + '">&larr; ' + (prev ? prev.label : 'Home') + '</button>' +
+      '<button class="btn" data-act="go" data-stop="' + next.id + '">' + next.label + ' &rarr;</button></div></div>';
+    updateStatus(id);
+    toTop();
+  }
+
+  /* ---------- endosymbiosis story ---------- */
+  function viewedCount(){ return Object.keys(viewed).length; }
+
+  function storyProg(){
+    var h = '<div class="prog" role="group" aria-label="Story steps">';
+    for (var i = 0; i < STORY.length; i++){
+      h += '<button class="' + (i < idx ? 'on' : i === idx ? 'cur' : '') + '" data-act="step" data-i="' + i + '" aria-label="Go to step ' + (i + 1) + ': ' + STORY[i].title + '"' + (i === idx ? ' aria-current="step"' : '') + '></button>';
+    }
+    return h + '</div>';
+  }
+
+  function renderStory(){
+    leaveGame(); showView('game'); mode = 'story'; cur = 'endo'; renderTrail();
+    var s = STORY[idx];
+    P.storyIdx = idx; saveP();
+    applyState(STATES[idx]);
+    if (idx === 9) setEv(currentClue); else setEv(null);
+    setMood('smile');
+    var html = storyProg() + '<p class="mini"><span class="red">Red</span> = write it down. <span class="blue">Blue</span> = extra, only if you want.</p>' +
+               '<div class="content"><h2>' + s.title + '</h2>';
+    s.body.forEach(function(p){ html += '<p>' + p + '</p>'; });
+    if (s.vocab) html += '<div class="vocab"><b>' + s.vocab[0] + '</b> ' + s.vocab[1] + '</div>';
+    if (idx === 9){
+      html += '<div class="clues">';
+      CLUES.forEach(function(c){
+        html += '<button class="clue' + (currentClue === c.key ? ' active' : '') + (viewed[c.key] ? ' done' : '') +
+                '" data-act="clue" data-key="' + c.key + '"><span>' + c.name + '</span><span class="tick" aria-hidden="true">&#10003;</span></button>';
+      });
+      var cl = CLUES.filter(function(c){ return c.key === currentClue; })[0];
+      html += '</div><div class="clue-text' + (cl ? '' : ' ph') + '">' + (cl ? '<span class="red">' + cl.keyword + '</span>. ' + cl.text + ' <span class="blue">' + cl.extra + '</span>' : 'Tap a clue to see it on the cell.') + '</div>' +
+              '<p class="found">Clues found: ' + viewedCount() + ' of 4</p>';
+    }
+    if (idx === 10){
+      html += '<div class="cards">' +
+        '<div class="card"><b>Animal and fungi cells</b>One partner moved in: <span class="pill m">mitochondria</span></div>' +
+        '<div class="card"><b>Plant and algae cells</b>Both partners moved in: <span class="pill m">mitochondria</span><span class="pill c">chloroplasts</span></div>' +
+        '</div><p class="words">Words to remember: prokaryote, eukaryote, endosymbiosis, mitochondrion, chloroplast.</p>';
+    }
+    html += '</div><div class="nav">' +
+      '<button class="btn ghost" data-act="back">Back</button>' +
+      '<button class="btn" data-act="next"' + (idx === 9 && viewedCount() < 4 ? ' disabled' : '') + '>' +
+      (idx === STORY.length - 1 ? 'Check your notes' : 'Next') + '</button></div>';
+    panel.innerHTML = html;
+  }
+
+  function renderStoryCheck(){
+    leaveGame(); showView('game'); mode = 'storycheck'; cur = 'endo'; renderTrail();
+    applyState(FINAL_QUIET); setEv(null); setMood('smile');
+    buildQs('endo', ENDO_CHECK);
+    panel.innerHTML =
+      '<div class="content"><h2>Check your notes</h2>' +
+      '<p>Answer all three to finish this stop. Wrong answers are okay. Just try again!</p>' +
+      '<div id="qs-endo">' + qsHtml('endo') + '</div><div id="status-endo"></div></div>' +
+      '<div class="nav"><button class="btn ghost" data-act="step" data-i="' + (STORY.length - 1) + '">Back to the story</button></div>';
+    updateStatus('endo');
+  }
+
+  /* ---------- bonus quiz ---------- */
+  function simpleProg(n, total, label){
+    var h = '<div class="prog" role="img" aria-label="' + label + ' ' + n + ' of ' + total + '">';
+    for (var i = 1; i <= total; i++) h += '<i class="' + (i <= n ? 'on' : '') + '"></i>';
+    return h + '</div>';
+  }
+
+  function startQuiz(){
+    qi = 0; score = 0;
+    quizOpts = QUIZ.map(function(q){
+      return shuffle(q.opts.map(function(t, i){ return { t: t, ok: i === 0 }; }));
+    });
+    leaveGame(); showView('game'); cur = 'quiz'; renderTrail();
+    applyState(FINAL_QUIET); setEv(null);
+    renderQuiz();
+  }
+
+  function renderQuiz(){
+    leaveGame();
+    mode = 'quiz'; answered = false; setMood('smile');
+    var q = QUIZ[qi];
+    var html = simpleProg(qi + 1, QUIZ.length, 'Question') + '<div class="content"><h2>' + q.q + '</h2><div class="opts">';
+    quizOpts[qi].forEach(function(o, i){
+      html += '<button class="opt" data-act="answer" data-i="' + i + '">' + o.t + '</button>';
+    });
+    html += '</div><div class="feedback" id="fb">Pick an answer.</div></div>' +
+      '<div class="nav"><button class="btn ghost" data-act="home">Quit</button>' +
+      '<button class="btn" data-act="qnext" id="qnext" disabled>' + (qi === QUIZ.length - 1 ? 'See my score' : 'Next question') + '</button></div>';
+    panel.innerHTML = html;
+  }
+
+  function answer(i){
+    if (answered) return;
+    answered = true;
+    var q = QUIZ[qi], opts = quizOpts[qi];
+    var btns = panel.querySelectorAll('.opt');
+    var ok = opts[i].ok;
+    for (var k = 0; k < btns.length; k++){
+      btns[k].disabled = true;
+      if (opts[k].ok) btns[k].classList.add('correct');
+    }
+    if (!ok) btns[i].classList.add('wrong');
+    if (ok) score++;
+    setMood(ok ? 'big' : 'oops');
+    document.getElementById('fb').innerHTML = '<strong>' + (ok ? 'Yes!' : 'Not quite.') + '</strong> ' + q.why;
+    document.getElementById('qnext').disabled = false;
+  }
+
+  function renderResults(){
+    leaveGame();
+    mode = 'results';
+    var pass = score >= PASS;
+    if (score > P.quizBest) P.quizBest = score;
+    bonus = P.quizBest;
+    saveP();
+    if (pass) markDone('quiz');
+    applyState(FINAL_QUIET); setMood(score >= 3 ? 'big' : 'smile');
+    var msg = score === QUIZ.length ? 'Perfect! You really know your cells.' :
+              pass ? 'Nice work! You earned the checkmark.' :
+                     'You need ' + PASS + ' correct for the checkmark. Review the lessons and retake it!';
+    var badges = '<div class="badges" aria-label="Head start points">';
+    for (var i = 1; i <= QUIZ.length; i++) badges += '<span class="badge' + (i <= bonus ? ' on' : '') + '">' + (i <= bonus ? '+1' : '') + '</span>';
+    badges += '</div>';
+    panel.innerHTML = simpleProg(QUIZ.length, QUIZ.length, 'Quiz complete') +
+      '<div class="content"><h2>You got ' + score + ' of ' + QUIZ.length + '</h2><p>' + msg + '</p>' +
+      '<p>Your best score earns a head start in Cell Arena:</p>' + badges +
+      (bonus ? arenaPerkLine(bonus) : '<p class="words">No head start yet. Review the lessons and try again!</p>') + '</div>' +
+      '<div class="nav"><button class="btn ghost" data-act="quiz">Retake quiz</button>' +
+      '<button class="btn big" data-act="agame">Cell Arena!</button></div>';
+  }
+
+  /* ------------------------------------------------------------------
+     SHARED CANVAS HELPERS + GAME LOOP
+  ------------------------------------------------------------------ */
+  var ctx = canvas.getContext('2d');
+  ctx.setTransform(2, 0, 0, 2, 0, 0);
+  var GW = 800, GH = 450;
+  var raf = 0, lastTs = 0;
+  var scene = 'arena';
+
+  function rnd(a, b){ return a + Math.random() * (b - a); }
+  function clamp(v, a, b){ return v < a ? a : (v > b ? b : v); }
+  function dist(ax, ay, bx, by){ return Math.sqrt((ax - bx) * (ax - bx) + (ay - by) * (ay - by)); }
+  function star(x, y, rad){
+    ctx.beginPath();
+    for (var i = 0; i < 10; i++){
+      var a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? rad * .45 : rad;
+      var px = x + Math.cos(a) * rr, py = y + Math.sin(a) * rr;
+      if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.closePath();
+    ctx.fillStyle = '#FFD23F'; ctx.strokeStyle = '#E0A800'; ctx.lineWidth = 1.5;
+    ctx.fill(); ctx.stroke();
+  }
+  function circ(x, y, r, fill){ ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fillStyle = fill; ctx.fill(); }
+  function outlined(txt, x, y, size, fill, align){
+    ctx.font = '700 ' + size + 'px Fredoka, Nunito, sans-serif';
+    ctx.textAlign = align || 'center'; ctx.textBaseline = 'middle';
+    ctx.lineJoin = 'round'; ctx.lineWidth = Math.max(6, size / 8); ctx.strokeStyle = '#12304A';
+    ctx.strokeText(txt, x, y);
+    ctx.fillStyle = fill || '#fff'; ctx.fillText(txt, x, y);
+  }
+  function rrect(x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath();
+  }
+  function drawBannerOf(b){
+    if (!b) return;
+    ctx.save();
+    ctx.globalAlpha = Math.min(1, b.life * 3);
+    ctx.font = '600 20px Fredoka, Nunito, sans-serif';
+    var w1 = ctx.measureText(b.title).width;
+    ctx.font = '700 15px Nunito, sans-serif';
+    var w2 = ctx.measureText(b.sub).width;
+    var w = Math.max(w1, w2) + 40, h = 62, x = (GW - w) / 2, y = 26;
+    rrect(x, y, w, h, 16); ctx.fillStyle = '#FFF3C4'; ctx.fill(); ctx.strokeStyle = '#12304A'; ctx.lineWidth = 3; ctx.stroke();
+    ctx.fillStyle = '#12304A'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.font = '600 20px Fredoka, Nunito, sans-serif'; ctx.fillText(b.title, GW / 2, y + 22);
+    ctx.font = '700 15px Nunito, sans-serif'; ctx.fillText(b.sub, GW / 2, y + 44);
+    ctx.restore();
+  }
+  function ptrPos(e){
+    var r = canvas.getBoundingClientRect();
+    return { x: (e.clientX - r.left) * GW / (r.width || GW), y: (e.clientY - r.top) * GH / (r.height || GH) };
+  }
+  function loop(ts){
+    raf = requestAnimationFrame(loop);
+    var dt = Math.min(.05, (ts - lastTs) / 1000 || 0);
+    lastTs = ts;
+    if (scene === 'arena' && ar){ updateArena(dt); drawArena(); }
+  }
+  function startLoop(){
+    if (raf) cancelAnimationFrame(raf);
+    lastTs = performance.now();
+    raf = requestAnimationFrame(loop);
+  }
+  function leaveGame(){
+    if (raf){ cancelAnimationFrame(raf); raf = 0; }
+    frame.classList.remove('playing');
+    canvas.style.cursor = '';
+    panel.setAttribute('aria-live', 'polite');
+  }
+
+  /* ------------------------------------------------------------------
+     CELL ARENA (agar.io style: eat cells, get their powers, evolve)
+  ------------------------------------------------------------------ */
+  var ar = null;
+  var AW = 4800, AH = 4800, AMAX = 3, GOAL_MASS = 250, NUC_MASS = 80, GOAL_POWERS = 5;
+  var NPELL = 2080, NEXTRA = 24, MINT = 8;
+  var SUN_CAP = 10, SUN_REGEN = .1;       // each sunny spot can give at most 10 size, and recharges 1 per 10 seconds
+  var PKEYS = ['m', 'c', 'f', 'i', 'p', 'd', 's', 'x'];
+  var PWR = {
+    m: { name: 'Mitochondria', lab: 'Aerobic', cell: 'Aerobic bacterium', col: '#FF6B6B', edge: '#C94444', use: 'passive', real: true,
+         short: 'Once a bacterium that used oxygen. That is endosymbiosis!',
+         what: 'Gets much more energy from every glucose and gives you a bigger energy bar.' },
+    c: { name: 'Chloroplast', lab: 'Cyano', cell: 'Cyanobacterium', col: '#5BD16B', edge: '#2E9E40', use: 'passive', real: true,
+         short: 'Once a bacterium that used sunlight. Endosymbiosis too!',
+         what: 'Sunny spots give you energy and a little size, but each spot runs out.' },
+    f: { name: 'Flagellum', lab: 'Swimmer', cell: 'Swimming bacterium', col: '#4F9DFF', edge: '#2A6BD8', use: 'Shift', real: false,
+         short: 'Many bacteria swim with a spinning tail.', what: 'Speed burst.' },
+    i: { name: 'Cilia', lab: 'Paramecium', cell: 'Paramecium', col: '#FFD23F', edge: '#D9A400', use: 'passive', real: false,
+         short: 'Paramecia sweep in food with tiny hairs.', what: 'Pulls nearby glucose toward you.' },
+    p: { name: 'Pseudopod', lab: 'Amoeba', cell: 'Amoeba', col: '#B58CF5', edge: '#7B4FD8', use: 'E', real: false,
+         short: 'Amoebas engulf food with false feet.', what: 'Lunge forward and engulf bigger cells.' },
+    d: { name: 'Cell division', lab: 'Dividing', cell: 'Dividing cell', col: '#FF9EC4', edge: '#D9568C', use: 'Space', real: false,
+         short: 'Dividing cells split in two, and so can you.', what: 'Split into more pieces: 4, then 6, then 8.' },
+    s: { name: 'Endospore', lab: 'Spore-former', cell: 'Spore-former', col: '#C9B79C', edge: '#8C7A5E', use: 'Q', real: false,
+         short: 'Some bacteria make tough spores to survive.', what: 'Freeze and hide. Nothing can eat you.' },
+    x: { name: 'Extremophile', lab: 'Archaeon', cell: 'Archaeon', col: '#FF9F43', edge: '#D9741A', use: 'passive', real: false,
+         short: 'Archaea live in hot springs and acid.', what: 'Safe in hot springs. Dark orange dots feed you instead of poisoning you.' }
+  };
+  var ACTIVE = { f: { cost: 18, cd: 4 }, p: { cost: 28, cd: 6 }, d: { cost: 20, cd: 1.5 }, s: { cost: 25, cd: 10 } };
+
+  function rOf(m){ return 4 * Math.sqrt(m); }
+  function spdOf(m){ return clamp(240 * Math.pow(20 / m, .3), 70, 260); }
+  function inCircle(x, y, z, pad){ var dx = x - z[0], dy = y - z[1], rr = z[2] + (pad || 0); return dx * dx + dy * dy < rr * rr; }
+  function lightAt(x, y){ var L = ar.zones.light; for (var i = 0; i < L.length; i++) if (inCircle(x, y, L[i], 0)) return L[i]; return null; }
+  function inLight(x, y){ return !!lightAt(x, y); }
+  function inHot(x, y, pad){ var H = ar.zones.hot; for (var i = 0; i < H.length; i++) if (inCircle(x, y, H[i], pad)) return H[i]; return null; }
+  function maxE(){ return 60 + 20 * ar.pw.m; }
+  function pcount(){ var n = 0; PKEYS.forEach(function(k){ if (ar.pw[k] > 0) n++; }); return n; }
+  function totalMass(){ var m = 0; ar.cells.forEach(function(c){ m += c.mass; }); return m; }
+
+  function randPellet(){ return { x: rnd(30, AW - 30), y: rnd(30, AH - 30), m: 1.5, z: -1 }; }
+  function zonePellet(zi){
+    var z = ar.zones.hot[zi], a = rnd(0, 6.283), d = Math.sqrt(Math.random()) * z[2] * .92;
+    return { x: z[0] + Math.cos(a) * d, y: z[1] + Math.sin(a) * d, m: 4, z: zi };
+  }
+  function pelletGain(mass, pm){ return pm * clamp(1 - mass / 600, .15, 1); }
+  function relocatePellet(p){ var n = p.z >= 0 ? zonePellet(p.z) : randPellet(); p.x = n.x; p.y = n.y; }
+
+  function setArBanner(t, s){ ar.banner = { title: t, sub: s, life: 3.4 }; }
+  function arBurst(x, y, col, n){
+    for (var i = 0; i < n; i++){
+      var a = rnd(0, 6.283), sp = rnd(40, 200);
+      ar.parts.push({ x: x, y: y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: rnd(.35, .8), col: col, r: rnd(3, 7) });
+    }
+  }
+
+  function makeZones(){
+    var light = [], hot = [], gx, gy, i, j, tries, x, y, ok;
+    for (gx = 0; gx < 4; gx++) for (gy = 0; gy < 4; gy++){
+      light.push([(gx + .5) * AW / 4 + rnd(-250, 250), (gy + .5) * AH / 4 + rnd(-250, 250), 190, SUN_CAP]);
+    }
+    for (i = 0; i < 12; i++){
+      for (tries = 0; tries < 300; tries++){
+        x = rnd(350, AW - 350); y = rnd(350, AH - 350);
+        ok = dist(x, y, AW / 2, AH / 2) > 800;
+        for (j = 0; j < light.length && ok; j++) if (dist(x, y, light[j][0], light[j][1]) < 480) ok = false;
+        for (j = 0; j < hot.length && ok; j++) if (dist(x, y, hot[j][0], hot[j][1]) < 650) ok = false;
+        if (ok) break;
+      }
+      hot.push([x, y, 170]);
+    }
+    return { light: light, hot: hot };
+  }
+
+  function newArena(carry){
+    var i, k, zi;
+    ar = { phase: 'idle', time: 0, mouse: { x: 400, y: 225 }, keys: {}, banner: null, shake: 0, hint: '', hintT: 0,
+           pellets: [], bots: [], parts: [], cl: [], cells: [], pw: {}, cd: { f: 0, p: 0, s: 0, d: 0 },
+           energy: 60, burstT: 0, lungeT: 0, lungeX: 1, lungeY: 0, sporeT: 0, respawnT: 0,
+           nucleus: false, won: false, deaths: 0, eaten: 0, sig: '', winT: 0, protectT: 0, picks: {}, cam: { x: AW / 2, y: AH / 2, z: 1.1 },
+           zones: { light: [], hot: [] }, burning: false, explained: {}, story: null, storyT: 0, storyLock: 2.5, storyOn: false, aim: null, sawFission: false, sawMitosis: false, frame: 0, killer: null, lastEater: null, deadT: 0, lock: 3, outOn: false, countShown: -1 };
+    ar.zones = makeZones();
+    PKEYS.forEach(function(p){ ar.pw[p] = (carry && carry[p]) | 0; });
+    for (i = 0; i < NPELL; i++) ar.pellets.push(randPellet());
+    for (zi = 0; zi < ar.zones.hot.length; zi++) for (i = 0; i < 36; i++) ar.pellets.push(zonePellet(zi));
+    spawnPlayer(false);
+    var firstM = null, secondM = null;
+    PKEYS.forEach(function(p){
+      for (var j = 0; j < MINT; j++){ var b = spawnBot(p, j < 2); if (p === 'm' && j === 0) firstM = b; if (p === 'm' && j === 1) secondM = b; }
+    });
+    for (i = 0; i < NEXTRA; i++) spawnBot(null, false);
+    if (firstM){ firstM.x = ar.cells[0].x + 230; firstM.y = ar.cells[0].y - 90; firstM.tx = firstM.x; firstM.ty = firstM.y; }
+    if (secondM){ secondM.x = ar.cells[0].x - 210; secondM.y = ar.cells[0].y + 120; secondM.tx = secondM.x; secondM.ty = secondM.y; }
+    buildCL();
+  }
+
+  function spawnPlayer(avoidBig){
+    var x = AW / 2 + rnd(-150, 150), y = AH / 2 + rnd(-150, 150), tries = 0;
+    while (avoidBig && tries++ < 40){
+      x = rnd(300, AW - 300); y = rnd(300, AH - 300);
+      var bad = !!inHot(x, y, 80);
+      for (var i = 0; i < ar.bots.length && !bad; i++){
+        var b = ar.bots[i];
+        if (b.dead <= 0 && b.mass > 20 && dist(b.x, b.y, x, y) < 420) bad = true;
+      }
+      if (!bad) break;
+    }
+    ar.cells = [{ x: x, y: y, vx: 0, vy: 0, ix: 0, iy: 0, mass: 24, merge: 0 }];
+    ar.energy = maxE(); ar.burstT = 0; ar.lungeT = 0; ar.sporeT = 0;
+    ar.cam.x = x; ar.cam.y = y;
+  }
+
+  function massRoll(){
+    var r = Math.random();
+    return r < .6 ? rnd(8, 24) : r < .85 ? rnd(24, 60) : r < .96 ? rnd(60, 140) : rnd(140, 300);
+  }
+
+  function spawnBot(type, small){
+    var t = type || PKEYS[Math.floor(Math.random() * PKEYS.length)], x, y, tries = 0, z;
+    if (t === 'x'){ z = ar.zones.hot[Math.floor(Math.random() * ar.zones.hot.length)]; x = z[0] + rnd(-90, 90); y = z[1] + rnd(-90, 90); }
+    else if (t === 'c'){ z = ar.zones.light[Math.floor(Math.random() * ar.zones.light.length)]; x = z[0] + rnd(-120, 120); y = z[1] + rnd(-120, 120); }
+    else {
+      do { x = rnd(100, AW - 100); y = rnd(100, AH - 100); tries++; }
+      while (tries < 30 && (inHot(x, y, 60) || (ar.cells.length && dist(x, y, ar.cells[0].x, ar.cells[0].y) < 450)));
+    }
+    var b = { id: ar.bots.length, type: t, x: x, y: y, vx: 0, vy: 0, mass: small ? rnd(8, 15) : massRoll(), ang: rnd(0, 6.283),
+              thinkT: rnd(0, .3), tx: x, ty: y, mode: 'wander', spore: 0, sporeCd: 0, burst: 0, dead: 0, wob: rnd(0, 6.283),
+              roamer: Math.random() < .5, hold: 0, stuckT: 0 };
+    ar.bots.push(b);
+    return b;
+  }
+
+  function respawnBot(b){
+    var counts = {}, i;
+    PKEYS.forEach(function(p){ counts[p] = 0; });
+    for (i = 0; i < ar.bots.length; i++) if (ar.bots[i] !== b && ar.bots[i].dead <= 0) counts[ar.bots[i].type]++;
+    var least = PKEYS[0];
+    PKEYS.forEach(function(p){ if (counts[p] < counts[least]) least = p; });
+    var type = counts[least] < MINT ? least : null;
+    var nb = spawnBot(type, true);
+    ar.bots.pop();
+    b.type = nb.type; b.x = nb.x; b.y = nb.y; b.mass = rnd(8, 18); b.vx = b.vy = 0; b.tx = b.x; b.ty = b.y;
+    b.spore = 0; b.sporeCd = 0; b.burst = 0; b.dead = 0; b.mode = 'wander'; b.roamer = Math.random() < .5; b.hold = 0; b.stuckT = 0;
+  }
+
+  function buildCL(){
+    var cl = [], i, b, c;
+    for (i = 0; i < ar.bots.length; i++){
+      b = ar.bots[i];
+      if (b.dead > 0) continue;
+      cl.push({ x: b.x, y: b.y, mass: b.mass, r: rOf(b.mass), ref: b, me: false, safe: b.spore > 0, noEat: b.spore > 0, gone: false });
+    }
+    for (i = 0; i < ar.cells.length; i++){
+      c = ar.cells[i];
+      cl.push({ x: c.x, y: c.y, mass: c.mass, r: rOf(c.mass), ref: c, me: true, safe: ar.sporeT > 0 || ar.protectT > 0 || ar.phase !== 'play', noEat: ar.sporeT > 0 || ar.phase !== 'play', gone: false });
+    }
+    ar.cl = cl;
+  }
+
+  function botThink(b){
+    var cl = ar.cl, i, o, d, dx, dy, threat = null, td = 1e9, prey = null, pd = 1e9;
+    for (i = 0; i < cl.length; i++){
+      o = cl[i];
+      if (o.ref === b || o.safe || o.gone) continue;
+      dx = o.x - b.x; dy = o.y - b.y; d = Math.sqrt(dx * dx + dy * dy);
+      if (o.mass > b.mass * 1.15){ if (d < 430 && d < td){ td = d; threat = o; } }
+      else if (b.mass > o.mass * 1.15){ if (d < 300 && d < pd){ pd = d; prey = o; } }
+    }
+    if (threat){
+      b.mode = 'flee';
+      var ex = b.x - threat.x, ey = b.y - threat.y, el = Math.sqrt(ex * ex + ey * ey) || 1;
+      var fx = ex / el, fy = ey / el, WM = 350, wx = 0, wy = 0;
+      if (b.x < WM) wx += (WM - b.x) / WM;
+      if (b.x > AW - WM) wx -= (b.x - (AW - WM)) / WM;
+      if (b.y < WM) wy += (WM - b.y) / WM;
+      if (b.y > AH - WM) wy -= (b.y - (AH - WM)) / WM;
+      fx += wx * 1.8; fy += wy * 1.8;                      // run along walls, never into them
+      var fl = Math.sqrt(fx * fx + fy * fy) || 1;
+      b.tx = clamp(b.x + fx / fl * 350, 120, AW - 120); b.ty = clamp(b.y + fy / fl * 350, 120, AH - 120);
+      if (b.type === 's' && b.sporeCd <= 0 && td < 220){ b.spore = 2.5; b.sporeCd = 9; }
+      if (b.type === 'f' && b.burst <= 0 && td < 300 && Math.random() < .5) b.burst = 1.2;
+      return;
+    }
+    if (prey){
+      b.mode = 'chase'; b.tx = prey.x; b.ty = prey.y;
+      if (b.type === 'p' && pd < 240 && b.burst <= 0) b.burst = .35;
+      if (b.type === 'f' && pd < 300 && b.burst <= 0 && Math.random() < .4) b.burst = 1.2;
+      return;
+    }
+    if (b.hold > 0) return;
+    var nearWall = b.x < 250 || b.x > AW - 250 || b.y < 250 || b.y > AH - 250;
+    var best = null, bd = 450 * 450, p;
+    if (b.roamer && nearWall && b.type !== 'x' && b.type !== 'c') bd = 0;      // roamers head for the middle instead of grazing the edge
+    for (i = 0; i < ar.pellets.length; i++){
+      p = ar.pellets[i];
+      if (p.z >= 0 && b.type !== 'x') continue;
+      dx = p.x - b.x; dy = p.y - b.y; d = dx * dx + dy * dy;
+      if (d < bd){ bd = d; best = p; }
+    }
+    if (best){ b.mode = 'food'; b.tx = best.x; b.ty = best.y; return; }
+    b.mode = 'wander';
+    var z;
+    if (b.type === 'x'){ z = ar.zones.hot[Math.floor(Math.random() * ar.zones.hot.length)]; b.tx = z[0] + rnd(-100, 100); b.ty = z[1] + rnd(-100, 100); }
+    else if (b.type === 'c' && Math.random() < .7){ z = ar.zones.light[Math.floor(Math.random() * ar.zones.light.length)]; b.tx = z[0] + rnd(-120, 120); b.ty = z[1] + rnd(-120, 120); }
+    else if (b.roamer){
+      for (i = 0; i < 10; i++){                            // roamers cross the pond through the middle
+        b.tx = rnd(AW * .12, AW * .88); b.ty = rnd(AH * .12, AH * .88);
+        if (dist(b.tx, b.ty, b.x, b.y) > 900 && !inHot(b.tx, b.ty, 60)) break;
+      }
+    } else {
+      for (i = 0; i < 6; i++){
+        b.tx = clamp(b.x + rnd(-500, 500), 150, AW - 150); b.ty = clamp(b.y + rnd(-500, 500), 150, AH - 150);
+        if (!inHot(b.tx, b.ty, 50)) break;
+      }
+    }
+  }
+
+  function updateBots(dt){
+    var i, b, dx, dy, d, s, r, hz;
+    for (i = 0; i < ar.bots.length; i++){
+      b = ar.bots[i];
+      if (b.dead > 0){ b.dead -= dt; if (b.dead <= 0) respawnBot(b); continue; }
+      b.wob += dt * 3;
+      if (b.sporeCd > 0) b.sporeCd -= dt;
+      if (b.burst > 0) b.burst -= dt;
+      if (b.spore > 0){ b.spore -= dt; b.vx = b.vy = 0; continue; }
+      if (b.hold > 0) b.hold -= dt;
+      // a cell that has parked against a wall or corner gets sent back toward the middle
+      if ((b.x < 120 || b.x > AW - 120 || b.y < 120 || b.y > AH - 120) && b.vx * b.vx + b.vy * b.vy < 625) b.stuckT += dt; else b.stuckT = 0;
+      if (b.stuckT > 1.2){ b.stuckT = 0; b.hold = 4; b.tx = rnd(AW * .2, AW * .8); b.ty = rnd(AH * .2, AH * .8); b.mode = 'wander'; }
+      b.thinkT -= dt;
+      if (b.thinkT <= 0){ b.thinkT = .25 + Math.random() * .15; botThink(b); }
+      if (b.type !== 'x'){
+        hz = inHot(b.x, b.y, 0);
+        if (hz){ dx = b.x - hz[0]; dy = b.y - hz[1]; d = Math.sqrt(dx * dx + dy * dy) || 1; b.tx = hz[0] + dx / d * (hz[2] + 120); b.ty = hz[1] + dy / d * (hz[2] + 120); b.mode = 'flee'; }
+      }
+      dx = b.tx - b.x; dy = b.ty - b.y; d = Math.sqrt(dx * dx + dy * dy);
+      r = rOf(b.mass);
+      if (d > 6){
+        s = spdOf(b.mass) * (b.mode === 'flee' ? 1 : b.mode === 'chase' ? .9 : .75) * (b.type === 'f' ? 1.08 : 1) * (b.burst > 0 ? 1.35 : 1);
+        var k = Math.min(1, dt * 5), ax = dx / d, ay = dy / d;
+        if (b.type !== 'x'){                                   // steer around hot springs instead of walking into them
+          var HZ = ar.zones.hot;
+          for (var hi = 0; hi < HZ.length; hi++){
+            var hdx = b.x - HZ[hi][0], hdy = b.y - HZ[hi][1], hd = Math.sqrt(hdx * hdx + hdy * hdy), lim = HZ[hi][2] + 170;
+            if (hd < lim && hd > 1){ var hw = (lim - hd) / 170 * 1.6; ax += hdx / hd * hw; ay += hdy / hd * hw; }
+          }
+          var al = Math.sqrt(ax * ax + ay * ay) || 1; ax /= al; ay /= al;
+        }
+        b.ang = Math.atan2(ay, ax);
+        b.vx += (ax * s - b.vx) * k; b.vy += (ay * s - b.vy) * k;
+      } else { b.vx *= .9; b.vy *= .9; }
+      b.x = clamp(b.x + b.vx * dt, r, AW - r); b.y = clamp(b.y + b.vy * dt, r, AH - r);
+    }
+  }
+
+  function botEat(dt){
+    var i, j, b, p, r, dx, dy, reach;
+    for (i = 0; i < ar.bots.length; i++){
+      b = ar.bots[i];
+      if (b.dead > 0 || b.spore > 0 || (ar.frame + i) % 3 !== 0) continue;
+      r = Math.min(rOf(b.mass), 110); reach = r + (b.type === 'i' ? 40 : 4);
+      for (j = 0; j < ar.pellets.length; j++){
+        p = ar.pellets[j];
+        dx = p.x - b.x; dy = p.y - b.y;
+        if (dx * dx + dy * dy < reach * reach){
+          if (p.z >= 0 && b.type !== 'x') continue;
+          b.mass = Math.min(260, b.mass + pelletGain(b.mass, p.m)); relocatePellet(p);
+        }
+      }
+    }
+  }
+
+  function zoneEffects(dt){
+    var i, b, c, ix = ar.pw.x > 0;
+    for (i = 0; i < ar.zones.light.length; i++){
+      var sz = ar.zones.light[i];
+      if (sz[3] < SUN_CAP) sz[3] = Math.min(SUN_CAP, sz[3] + SUN_REGEN * dt);
+    }
+    for (i = 0; i < ar.bots.length; i++){
+      b = ar.bots[i];
+      if (b.dead > 0) continue;
+      if (b.type !== 'x' && inHot(b.x, b.y, 0)) b.mass = Math.max(6, b.mass - b.mass * .07 * dt);
+      if (b.mass > 150) b.mass -= b.mass * .009 * (b.mass / 150) * dt;
+    }
+    var burning = false;
+    for (i = 0; i < ar.cells.length; i++){
+      c = ar.cells[i];
+      if (!ix && ar.phase === 'play' && inHot(c.x, c.y, 0)){
+        c.mass = Math.max(10, c.mass - c.mass * .07 * dt);
+        burning = true;
+        if (Math.random() < dt * 12) arBurst(c.x, c.y, '#FF6B3D', 1);
+      }
+      if (c.mass > 250) c.mass -= c.mass * .008 * (c.mass / 250) * dt;
+    }
+    if (burning){
+      ar.energy = Math.max(0, ar.energy - 6 * dt);
+    }
+    ar.burning = burning;
+  }
+
+  /* ----- the player ----- */
+  function worldMouse(){
+    var z = ar.cam.z;
+    if (!overChip(ar.mouse)) ar.aim = { x: ar.mouse.x, y: ar.mouse.y };
+    var m = ar.aim || ar.mouse;
+    return { x: ar.cam.x + (m.x - GW / 2) / z, y: ar.cam.y + (m.y - GH / 2) / z };
+  }
+  function centerOfMass(){
+    var cx = 0, cy = 0, m = 0;
+    ar.cells.forEach(function(c){ cx += c.x * c.mass; cy += c.y * c.mass; m += c.mass; });
+    return m ? { x: cx / m, y: cy / m } : { x: ar.cam.x, y: ar.cam.y };
+  }
+  function steerDir(c){
+    var k = ar.keys, kx = 0, ky = 0;
+    if (k.arrowleft || k.a) kx -= 1;
+    if (k.arrowright || k.d) kx += 1;
+    if (k.arrowup || k.w) ky -= 1;
+    if (k.arrowdown || k.s) ky += 1;
+    if (kx || ky){ var l = Math.sqrt(kx * kx + ky * ky); return { x: kx / l, y: ky / l, mag: 1 }; }
+    var wm = worldMouse(), dx = wm.x - c.x, dy = wm.y - c.y, d = Math.sqrt(dx * dx + dy * dy) || 1;
+    return { x: dx / d, y: dy / d, mag: Math.min(1, d / 50) };
+  }
+
+  function gainPower(k){
+    var P = PWR[k], before = ar.pw[k];
+    if (before >= AMAX){ ar.energy = Math.min(maxE(), ar.energy + 6); return; }
+    ar.pw[k] = before + 1;
+    ar.energy = Math.min(maxE(), ar.energy + 10);
+    var real = (k === 'm' || k === 'c');
+    if (!ar.explained[k] || !ar.explained.first){
+      var full = !ar.explained.first || real;
+      ar.explained.first = true; ar.explained[k] = true;
+      startStory(k, full);
+    }
+    else if (before === 0) setArBanner(P.name + ' installed!', P.short);
+    else setArBanner(P.name + ' level ' + (before + 1) + '!', 'Eat more ' + P.cell.toLowerCase() + 's to level it up.');
+    updateArenaPanel();
+  }
+
+  function startStory(k, full){
+    ar.story = { k: k, full: !!full }; ar.phase = 'story'; ar.storyT = 0; ar.storyOn = false; ar.banner = null;
+    ar.storyLock = full ? 2.5 : 1.5;
+    renderArenaStory();
+  }
+  function continueStory(){
+    if (!ar || ar.phase !== 'story' || !ar.storyOn) return;
+    ar.phase = 'play'; ar.story = null; ar.protectT = Math.max(ar.protectT, 1.5);
+    renderArenaPlayPanel();
+  }
+  function renderArenaStory(){
+    var k = ar.story.k, P = PWR[k], who = anCell(P);
+    var lower = function(t){ return t.charAt(0).toLowerCase() + t.slice(1); };
+    panel.setAttribute('aria-live', 'polite');
+    if (!ar.story.full){
+      var how = P.use === 'passive' ? 'It works all the time.' : 'Press ' + P.use + ' to use it.';
+      panel.innerHTML =
+        '<div class="content"><h2>You ate ' + who + '!</h2>' +
+        '<p><b>It did not get digested.</b> It is alive inside you and now it helps you: ' + lower(P.what) + ' ' + how + '</p>' +
+        '<div class="swimrow"><button class="btn big" id="arGo" data-act="astory" disabled>Continue</button><span class="found" id="arStoryNote">Read this first!</span></div>' +
+        '<p><b>Real life:</b> ' + P.short + '</p>' +
+        '<p><span class="blue">Only mitochondria and chloroplasts really came from endosymbiosis. This power is a real cell feature that evolved in another way.</span></p></div>';
+      return;
+    }
+    var helps = k === 'm' ? 'It uses oxygen to make energy for you.' :
+                k === 'c' ? 'It uses sunlight to make food for you, so sunny spots give you energy and a little extra size (each spot only has so much).' :
+                            'Its power now helps you: ' + lower(P.what);
+    var extra = k === 'm' ? 'Mitochondria were once free-living bacteria that used oxygen. Over millions of years they became part of every eukaryotic cell.' :
+                k === 'c' ? 'Chloroplasts were once free-living cyanobacteria that used sunlight. They became part of plant and algae cells.' :
+                            'In real life, only two organelles came from endosymbiosis: mitochondria and chloroplasts. The other powers are real cell features, but they evolved in other ways.';
+    panel.innerHTML =
+      '<div class="content"><h2>You ate ' + who + '!</h2>' +
+      '<p><b>But you did not digest it.</b> It is still alive inside you, and now it is helping you. ' + helps + '</p>' +
+      '<div class="swimrow"><button class="btn big" id="arGo" data-act="astory" disabled>Continue</button><span class="found" id="arStoryNote">Read this first!</span></div>' +
+      '<p class="kw"><span class="red">endosymbiosis</span><span class="red">eaten, not digested</span></p>' +
+      '<p><b>Endosymbiosis</b> means one cell lives inside another cell, and both help each other. The big cell gives the little cell food and a safe home. The little cell gives the big cell something useful. Over millions of years, the little cell can become part of the big one.</p>' +
+      '<p><span class="blue">' + extra + '</span></p></div>';
+  }
+
+  function hintMsg(t){ ar.hint = t; ar.hintT = 1.2; }
+  var CHIP_KEY = { f: 'shift', p: 'e', d: ' ', s: 'q' };
+  function abilityList(){ return ['f', 'p', 'd', 's'].filter(function(k){ return k === 'd' || ar.pw[k] > 0; }); }
+  function chipRect(n){ return { x: 242 + n * 108, y: GH - 46, w: 104, h: 34 }; }
+  function overChip(p){
+    var list = abilityList();
+    for (var n = 0; n < list.length; n++){
+      var R = chipRect(n);
+      if (p.x >= R.x && p.x <= R.x + R.w && p.y >= R.y && p.y <= R.y + R.h) return true;
+    }
+    return false;
+  }
+  function maxPieces(){ return 2 + 2 * ar.pw.d; }
+  function canAct(k){
+    if ((k !== 'd' && !ar.pw[k]) || ar.phase !== 'play' || !ar.cells.length) return false;
+    if (ar.sporeT > 0) return false;
+    if (ar.cd[k] > 0){ hintMsg('Still recharging...'); return false; }
+    if (ar.energy < ACTIVE[k].cost){ hintMsg('Not enough energy! Eat glucose.'); return false; }
+    return true;
+  }
+  function spend(k){ ar.energy -= ACTIVE[k].cost; ar.cd[k] = ACTIVE[k].cd; }
+
+  function doSplit(){
+    var mp = maxPieces(), list = ar.cells.slice(), made = 0, i, c, dir, half, mit = ar.nucleus, t = mit ? 10 : 12;
+    list.sort(function(a, b){ return b.mass - a.mass; });
+    for (i = 0; i < list.length && ar.cells.length < mp; i++){
+      c = list[i];
+      if (c.mass < 20) continue;
+      dir = steerDir(c); half = c.mass / 2;
+      c.mass = half; c.merge = t;
+      ar.cells.push({ x: c.x + dir.x * rOf(half), y: c.y + dir.y * rOf(half), vx: 0, vy: 0, ix: dir.x * 650, iy: dir.y * 650, mass: half, merge: t });
+      made++;
+    }
+    if (made){
+      spend('d');
+      if (mit && !ar.sawMitosis){ ar.sawMitosis = true; setArBanner('Mitosis!', 'Eukaryotes copy their nucleus, then split in two.'); }
+      else if (!mit && !ar.sawFission){ ar.sawFission = true; setArBanner('Binary fission!', 'Prokaryotes reproduce by splitting in two.'); }
+    } else {
+      hintMsg(ar.cells.length >= mp ? (ar.pw.d < AMAX ? 'Eat dividing cells to split into more pieces.' : 'You are at the most pieces you can make.') : 'Too small to split. Grow to size 20.');
+    }
+  }
+
+  function arenaKey(k){
+    if (ar.phase !== 'play') return;
+    if (k === 'shift' && canAct('f')){ spend('f'); ar.burstT = 1.5; }
+    else if (k === 'e' && canAct('p')){
+      spend('p'); ar.lungeT = .28;
+      var c0 = ar.cells[0], dir = steerDir(c0); ar.lungeX = dir.x; ar.lungeY = dir.y;
+    }
+    else if (k === ' ' && canAct('d')) doSplit();
+    else if (k === 'q' && canAct('s')){ spend('s'); ar.sporeT = 2 + ar.pw.s; ar.cd.s = ACTIVE.s.cd + ar.sporeT; }
+  }
+
+  function updatePlayer(dt){
+    var i, j, c, a, b, dir, dx, dy, d, sp, mult, k, starving = ar.energy <= 0;
+    ar.energy = Math.max(0, ar.energy - 1.0 * dt);
+    for (k in ar.cd) if (ar.cd[k] > 0) ar.cd[k] -= dt;
+    if (ar.burstT > 0) ar.burstT -= dt;
+    if (ar.lungeT > 0) ar.lungeT -= dt;
+    if (ar.sporeT > 0) ar.sporeT -= dt;
+    var com = centerOfMass();
+    if (ar.pw.c > 0 && inLight(com.x, com.y)) ar.energy = Math.min(maxE(), ar.energy + (3 + 3 * ar.pw.c) * dt);
+    if (ar.pw.c > 0){
+      for (i = 0; i < ar.cells.length; i++){            // a tiny bit of size from sunlight, fading for big cells
+        var lz = lightAt(ar.cells[i].x, ar.cells[i].y);
+        if (lz && lz[3] > 0){
+          var gain = Math.min(lz[3], .2 * ar.pw.c * clamp(1 - ar.cells[i].mass / 600, .15, 1) * dt);
+          ar.cells[i].mass += gain; lz[3] -= gain;          // the spot gives up what you take
+        }
+      }
+    }
+    if (starving){
+      for (i = 0; i < ar.cells.length; i++) ar.cells[i].mass = Math.max(12, ar.cells[i].mass - ar.cells[i].mass * .01 * dt);
+    }
+    mult = (ar.burstT > 0 ? 1.5 + .15 * ar.pw.f : 1) * (ar.lungeT > 0 ? 3.2 : 1) * (starving ? .6 : 1);
+    for (i = 0; i < ar.cells.length; i++){
+      c = ar.cells[i];
+      c.merge -= dt;
+      if (ar.sporeT > 0){ c.vx = c.vy = 0; }
+      else {
+        dir = ar.lungeT > 0 ? { x: ar.lungeX, y: ar.lungeY, mag: 1 } : steerDir(c);
+        sp = spdOf(c.mass) * dir.mag * mult;
+        if (ar.cells.length > 1 && c.merge > 0) sp *= ar.nucleus ? 1.35 : 1.25;
+        var kk = Math.min(1, dt * 8);
+        c.vx += (dir.x * sp - c.vx) * kk; c.vy += (dir.y * sp - c.vy) * kk;
+      }
+      c.ix *= Math.exp(-4 * dt); c.iy *= Math.exp(-4 * dt);
+      var r = rOf(c.mass);
+      c.x = clamp(c.x + (c.vx + c.ix) * dt, r, AW - r); c.y = clamp(c.y + (c.vy + c.iy) * dt, r, AH - r);
+    }
+    for (i = 0; i < ar.cells.length; i++){
+      for (j = i + 1; j < ar.cells.length; j++){
+        a = ar.cells[i]; b = ar.cells[j];
+        dx = b.x - a.x; dy = b.y - a.y; d = Math.sqrt(dx * dx + dy * dy) || 1;
+        var ra = rOf(a.mass), rb = rOf(b.mass);
+        if (a.merge <= 0 && b.merge <= 0){
+          if (d < Math.max(ra, rb) * .6){
+            var tm = a.mass + b.mass;
+            a.x = (a.x * a.mass + b.x * b.mass) / tm; a.y = (a.y * a.mass + b.y * b.mass) / tm;
+            a.vx = (a.vx * a.mass + b.vx * b.mass) / tm; a.vy = (a.vy * a.mass + b.vy * b.mass) / tm;
+            a.mass = tm; ar.cells.splice(j, 1); j--;
+          }
+        } else if (d < ra + rb){
+          var push = (ra + rb - d) / 2 * Math.min(1, dt * 10);
+          a.x -= dx / d * push; a.y -= dy / d * push; b.x += dx / d * push; b.y += dy / d * push;
+        }
+      }
+    }
+    // glucose: eat it, and cilia pull it in
+    var cil = ar.pw.i, pull = 70 + 45 * cil;
+    for (i = 0; i < ar.cells.length; i++){
+      c = ar.cells[i];
+      var rr = Math.min(rOf(c.mass), 110);
+      for (j = 0; j < ar.pellets.length; j++){
+        var p = ar.pellets[j];
+        dx = c.x - p.x; dy = c.y - p.y; d = dx * dx + dy * dy;
+        if (cil > 0 && !(p.z >= 0 && ar.pw.x <= 0) && d < (pull + rr) * (pull + rr) && d > 1){
+          var dd = Math.sqrt(d), mv = Math.min(dd, 190 * dt);
+          p.x += dx / dd * mv; p.y += dy / dd * mv; d = (dd - mv) * (dd - mv);
+        }
+        if (d < (rr + 3) * (rr + 3) && p.z >= 0 && ar.pw.x <= 0){
+          c.mass = Math.max(10, c.mass - (3 + c.mass * .05));
+          ar.energy = Math.max(0, ar.energy - 8);
+          arBurst(p.x, p.y, '#FF3D1F', 6);
+          ar.shake = Math.max(ar.shake, .08);
+          if (ar.hintT <= 0) hintMsg('Ouch! Hot glucose shrinks you unless you are an extremophile.');
+          relocatePellet(p);
+        } else if (d < (rr + 3) * (rr + 3)){
+          c.mass += pelletGain(c.mass, p.m) * (p.z >= 0 && ar.pw.x > 1 ? 1.5 : 1);
+          ar.energy = Math.min(maxE(), ar.energy + (p.z >= 0 ? 8 : 4.5) * (1 + ar.pw.m));
+          relocatePellet(p);
+        }
+      }
+    }
+  }
+
+  function resolveEating(){
+    var cl = ar.cl, i, j, A, B, dx, dy, ratio, lunge = ar.lungeT > 0 && ar.pw.p > 0 ? 1 / (1 + .1 * ar.pw.p) : 1.15;
+    for (i = 0; i < cl.length; i++){
+      A = cl[i];
+      if (A.gone || A.noEat) continue;
+      for (j = 0; j < cl.length; j++){
+        B = cl[j];
+        if (i === j || B.gone || B.safe || (A.me && B.me)) continue;
+        ratio = A.me ? lunge : 1.15;
+        if (A.mass <= B.mass * ratio) continue;
+        dx = A.x - B.x; dy = A.y - B.y;
+        var reach = A.r - .3 * B.r;
+        if (dx * dx + dy * dy >= reach * reach) continue;
+        B.gone = true;
+        A.ref.mass = Math.min(A.me ? 3000 : 260, A.ref.mass + B.mass); A.mass = A.ref.mass; A.r = rOf(A.mass);
+        arBurst(B.x, B.y, B.me ? '#FFA797' : PWR[B.ref.type].col, 12);
+        if (B.me){
+          if (!A.me) ar.lastEater = A.ref;
+          var idx = ar.cells.indexOf(B.ref);
+          if (idx >= 0) ar.cells.splice(idx, 1);
+          ar.shake = .35;
+        } else {
+          B.ref.dead = 2.5 + Math.random() * 2;
+          if (A.me){ ar.eaten++; gainPower(B.ref.type); }
+        }
+      }
+    }
+    if (ar.phase === 'play' && ar.cells.length === 0){
+      ar.deaths++;
+      ar.phase = 'dead'; ar.deadT = 0; ar.outOn = false; ar.countShown = -1;
+      ar.lock = ar.deaths === 1 ? 3 : 1.5; ar.respawnT = ar.deaths === 1 ? 14 : 8;
+      ar.killer = ar.lastEater ? { type: ar.lastEater.type } : { type: 'm' };
+      ar.banner = null;
+      renderArenaDeath();
+    }
+  }
+
+  function respawnPlayer(){
+    spawnPlayer(true);
+    ar.phase = 'play'; ar.protectT = 4;
+    setArBanner('Your daughter cell swims out!', 'You kept your powers. Grow again!');
+    renderArenaPlayPanel();
+  }
+
+  function renderArenaPlayPanel(){
+    panel.setAttribute('aria-live', 'off');
+    panel.innerHTML =
+      '<div class="content"><h2>Cell Arena</h2><div id="arSide"></div>' +
+      '<p class="keys">Eat glucose (the little dots) to keep your energy up. Press <b>Space</b> or click the split button to split in two. Your pieces move faster and you steer them all. <b>Dark orange dots</b> in the hot springs are poison unless you are an extremophile.</p></div>' +
+      '<div class="nav"><button class="btn ghost" data-act="home">Quit</button></div>';
+    ar.sig = ''; updateArenaPanel();
+  }
+
+  function renderArenaDeath(){
+    var P = PWR[ar.killer.type], who = anCell(P), cellName = P.cell.toLowerCase();
+    panel.setAttribute('aria-live', 'polite');
+    panel.innerHTML =
+      '<div class="content"><h2>Eaten by ' + who + '!</h2>' +
+      '<p><b>You are now living inside the cell that ate you.</b> The ' + cellName + ' swallowed you but did not digest you, so you are still alive inside it.</p>' +
+      '<div class="swimrow"><button class="btn big" id="arOut" data-act="arespawn" disabled>Swim out</button><span class="found" id="arCount"></span></div>' +
+      '<p class="kw"><span class="red">endosymbiosis</span><span class="red">living inside</span></p>' +
+      '<p>This is how endosymbiosis began: one cell swallowed another, and the swallowed cell kept living inside. Your powers are safe, and soon you divide in two and your daughter cell swims out.</p>' +
+      '<p><span class="blue">In real life, most swallowed cells get digested. A few survived and became partners, like mitochondria.</span></p></div>';
+  }
+
+  function checkGoals(){
+    var m = totalMass();
+    if (ar.phase !== 'play') return;
+    if (!ar.nucleus && ar.pw.m > 0 && m >= NUC_MASS){
+      ar.nucleus = true;
+      setArBanner('You are a eukaryote!', 'You have mitochondria and you are big. Space is now mitosis.');
+      updateArenaPanel();
+    } else if (!ar.nucleus && ar.pw.m === 0 && m >= NUC_MASS && ar.hintT <= 0){
+      hintMsg('Find a red bacterium first. Eukaryotes need mitochondria!');
+    }
+    if (!ar.won && ar.nucleus && pcount() >= GOAL_POWERS && m >= GOAL_MASS){
+      ar.won = true; ar.phase = 'won'; ar.winT = 0;
+      ar.banner = null;
+      markDone('arena');
+      startArenaEvo();
+      renderArenaWin();
+    }
+  }
+
+  function updateArena(dt){
+    var A = ar, i;
+    A.time += dt;
+    A.frame++;
+    if (A.phase === 'story'){
+      A.storyT += dt;
+      if (!A.storyOn && A.storyT >= A.storyLock){
+        A.storyOn = true;
+        var gb = document.getElementById('arGo'), sn = document.getElementById('arStoryNote');
+        if (gb) gb.disabled = false;
+        if (sn) sn.textContent = 'Press Continue (or Enter) when you are ready.';
+      }
+      return;
+    }
+    if (A.protectT > 0) A.protectT -= dt;
+    if (A.shake > 0) A.shake = Math.max(0, A.shake - dt);
+    if (A.hintT > 0) A.hintT -= dt;
+    if (A.banner){ A.banner.life -= dt; if (A.banner.life <= 0) A.banner = null; }
+    for (i = A.parts.length - 1; i >= 0; i--){
+      var pt = A.parts[i];
+      pt.life -= dt; pt.x += pt.vx * dt; pt.y += pt.vy * dt; pt.vx *= .96; pt.vy *= .96;
+      if (pt.life <= 0) A.parts.splice(i, 1);
+    }
+    if (A.phase === 'dead'){
+      A.deadT += dt; A.respawnT -= dt;
+      var left = Math.max(0, Math.ceil(A.respawnT));
+      if (left !== A.countShown){
+        A.countShown = left;
+        var ce = document.getElementById('arCount');
+        if (ce) ce.textContent = 'Your daughter cell swims out in ' + left + ' seconds.';
+      }
+      if (!A.outOn && A.deadT >= A.lock){
+        A.outOn = true;
+        var ob = document.getElementById('arOut');
+        if (ob) ob.disabled = false;
+      }
+      if (A.respawnT <= 0) respawnPlayer();
+    }
+    if (A.phase === 'won'){ A.winT += dt; if (A.evo) updateArenaEvo(dt); }
+    updateBots(dt);
+    if (A.phase === 'play') updatePlayer(dt);
+    botEat(dt);
+    zoneEffects(dt);
+    buildCL();
+    resolveEating();
+    checkGoals();
+    var com = centerOfMass(), M = totalMass() || 20, rEff = rOf(M), zt = clamp(40 / (rEff + 16), .26, 1.2);
+    var k = Math.min(1, dt * 6);
+    A.cam.x += (com.x - A.cam.x) * k; A.cam.y += (com.y - A.cam.y) * k;
+    A.cam.z += (zt - A.cam.z) * Math.min(1, dt * 3);
+    updateArenaPanel();
+  }
+
+  /* ----- drawing the arena ----- */
+  function drawEyes(x, y, r, ang, lw){
+    var fx = Math.cos(ang), fy = Math.sin(ang), px = -fy, py = fx;
+    for (var s = -1; s <= 1; s += 2){
+      var ex = x + fx * r * .25 + px * r * .3 * s, ey = y + fy * r * .25 + py * r * .3 * s;
+      circ(ex, ey, r * .2, '#fff');
+      circ(ex + fx * r * .07, ey + fy * r * .07, r * .1, '#12304A');
+    }
+  }
+
+  function drawDecor(k, x, y, r, t, ang, lw){
+    var P = PWR[k], n, a, w, s, u;
+    ctx.save(); ctx.translate(x, y);
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    if (k === 'f'){
+      ctx.rotate(ang + Math.PI);
+      ctx.strokeStyle = P.edge; ctx.lineWidth = Math.max(lw, r * .12);
+      ctx.beginPath(); ctx.moveTo(r * .9, 0);
+      for (s = 1; s <= 8; s++){ u = s / 8; ctx.lineTo(r * (.9 + 1.3 * u), Math.sin(u * 7 - t * 9) * r * .22 * u); }
+      ctx.stroke();
+    } else if (k === 'i'){
+      ctx.strokeStyle = P.edge; ctx.lineWidth = Math.max(lw * .7, r * .05);
+      for (n = 0; n < 18; n++){
+        a = n / 18 * 6.283; w = Math.sin(t * 8 + n) * .12;
+        ctx.beginPath(); ctx.moveTo(Math.cos(a) * r, Math.sin(a) * r); ctx.lineTo(Math.cos(a + w) * r * 1.22, Math.sin(a + w) * r * 1.22); ctx.stroke();
+      }
+    } else if (k === 'p'){
+      ctx.fillStyle = P.col;
+      for (n = 0; n < 5; n++){
+        a = ang + (n - 2) * .6 + Math.sin(t * 3 + n) * .12;
+        ctx.beginPath(); ctx.arc(Math.cos(a) * r * .95, Math.sin(a) * r * .95, r * .26, 0, 6.283); ctx.fill();
+      }
+    } else if (k === 's'){
+      ctx.strokeStyle = P.edge; ctx.lineWidth = Math.max(lw * 2, r * .12);
+      ctx.beginPath(); ctx.arc(0, 0, r * .9, 0, 6.283); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.75)'; ctx.beginPath(); ctx.ellipse(0, r * .3, r * .3, r * .2, 0, 0, 6.283); ctx.fill();
+      ctx.strokeStyle = P.edge; ctx.lineWidth = lw; ctx.stroke();
+    } else if (k === 'x'){
+      ctx.strokeStyle = 'rgba(255,159,67,.85)'; ctx.lineWidth = Math.max(lw * 1.5, r * .1);
+      ctx.beginPath(); ctx.arc(0, 0, r * 1.12, 0, 6.283); ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,255,255,.75)'; ctx.lineWidth = Math.max(lw, r * .07);
+      for (n = -1; n <= 1; n++){
+        ctx.beginPath(); ctx.moveTo(n * r * .4, -r * 1.2);
+        ctx.quadraticCurveTo(n * r * .4 + r * .15 * Math.sin(t * 4 + n), -r * 1.5, n * r * .4, -r * 1.8); ctx.stroke();
+      }
+    } else if (k === 'd'){
+      ctx.strokeStyle = P.edge; ctx.lineWidth = lw; ctx.setLineDash([r * .18, r * .14]);
+      ctx.beginPath(); ctx.moveTo(0, -r * .85); ctx.lineTo(0, r * .85); ctx.stroke(); ctx.setLineDash([]);
+    } else if (k === 'm'){
+      ctx.strokeStyle = P.edge; ctx.lineWidth = Math.max(lw, r * .06);
+      ctx.beginPath(); ctx.moveTo(-r * .5, r * .45); ctx.quadraticCurveTo(-r * .25, r * .2, 0, r * .45); ctx.quadraticCurveTo(r * .25, r * .7, r * .5, r * .45); ctx.stroke();
+    } else if (k === 'c'){
+      ctx.fillStyle = P.edge;
+      for (n = -1; n <= 1; n++){ ctx.fillRect(n * r * .3 - r * .1, r * .35, r * .2, r * .08); ctx.fillRect(n * r * .3 - r * .1, r * .5, r * .2, r * .08); }
+    }
+    ctx.restore();
+  }
+
+  function drawArenaCell(x, y, r, col, edge, lw, t, ang, label, eyes){
+    ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283);
+    ctx.fillStyle = col; ctx.fill();
+    ctx.fillStyle = 'rgba(255,255,255,.28)'; ctx.beginPath(); ctx.arc(x - r * .28, y - r * .3, r * .45, 0, 6.283); ctx.fill();
+    ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.strokeStyle = edge; ctx.lineWidth = lw; ctx.stroke();
+    if (eyes) drawEyes(x, y, r, ang, lw);
+  }
+
+  function drawArena(){
+    var A = ar, z = A.cam.z, i, j, k, x0, x1, y0, y1;
+    if (A.phase === 'won' && A.evo){ drawArenaEvo(); return; }
+    ctx.fillStyle = '#0B2A44'; ctx.fillRect(0, 0, GW, GH);
+    ctx.save();
+    if (A.shake > 0) ctx.translate(rnd(-1, 1) * A.shake * 8, rnd(-1, 1) * A.shake * 8);
+    ctx.translate(GW / 2, GH / 2); ctx.scale(z, z); ctx.translate(-A.cam.x, -A.cam.y);
+    x0 = A.cam.x - GW / 2 / z - 60; x1 = A.cam.x + GW / 2 / z + 60; y0 = A.cam.y - GH / 2 / z - 60; y1 = A.cam.y + GH / 2 / z + 60;
+    var wg = ctx.createLinearGradient(0, 0, 0, AH);
+    wg.addColorStop(0, '#4CC4D2'); wg.addColorStop(1, '#1E6A8F');
+    ctx.fillStyle = wg; ctx.fillRect(0, 0, AW, AH);
+    ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = 1 / z;
+    ctx.beginPath();
+    for (k = Math.max(0, Math.floor(x0 / 120) * 120); k <= Math.min(AW, x1); k += 120){ ctx.moveTo(k, Math.max(0, y0)); ctx.lineTo(k, Math.min(AH, y1)); }
+    for (k = Math.max(0, Math.floor(y0 / 120) * 120); k <= Math.min(AH, y1); k += 120){ ctx.moveTo(Math.max(0, x0), k); ctx.lineTo(Math.min(AW, x1), k); }
+    ctx.stroke();
+    A.zones.light.forEach(function(L){
+      var sf = .3 + .7 * (L[3] / SUN_CAP);
+      var g2 = ctx.createRadialGradient(L[0], L[1], L[2] * .2, L[0], L[1], L[2]);
+      g2.addColorStop(0, 'rgba(255,240,150,' + (.75 * sf) + ')'); g2.addColorStop(1, 'rgba(255,240,150,0)');
+      ctx.fillStyle = g2; ctx.beginPath(); ctx.arc(L[0], L[1], L[2], 0, 6.283); ctx.fill();
+      if (L[0] > x0 - 200 && L[0] < x1 + 200 && L[1] > y0 - 200 && L[1] < y1 + 200) outlined(L[3] < 1 ? 'Sunlight (used up)' : 'Sunlight', L[0], L[1], 16 / z, L[3] < 1 ? '#C9B98A' : '#FFF3A8');
+    });
+    A.zones.hot.forEach(function(H){
+      var g3 = ctx.createRadialGradient(H[0], H[1], H[2] * .3, H[0], H[1], H[2]);
+      g3.addColorStop(0, 'rgba(255,120,40,.65)'); g3.addColorStop(.85, 'rgba(255,170,60,.45)'); g3.addColorStop(1, 'rgba(255,170,60,0)');
+      ctx.fillStyle = g3; ctx.beginPath(); ctx.arc(H[0], H[1], H[2], 0, 6.283); ctx.fill();
+      if (H[0] > x0 - 200 && H[0] < x1 + 200 && H[1] > y0 - 200 && H[1] < y1 + 200){
+        outlined('Hot spring', H[0], H[1] - 12 / z, 18 / z, '#FFE0B0');
+        outlined('extremophiles only', H[0], H[1] + 10 / z, 13 / z, '#fff');
+      }
+    });
+    ctx.strokeStyle = '#12304A'; ctx.lineWidth = 8 / z; ctx.strokeRect(0, 0, AW, AH);
+    for (i = 0; i < A.pellets.length; i++){
+      var p = A.pellets[i];
+      if (p.x < x0 || p.x > x1 || p.y < y0 || p.y > y1) continue;
+      var pr = p.z >= 0 ? 7 : 5;
+      ctx.beginPath(); ctx.arc(p.x, p.y, pr, 0, 6.283);
+      ctx.fillStyle = p.z >= 0 ? (A.pw.x > 0 ? '#FFD23F' : '#E8681A') : '#FFF3A8'; ctx.fill();
+      ctx.strokeStyle = p.z >= 0 ? (A.pw.x > 0 ? '#D9A400' : '#8E2208') : '#E0C85A'; ctx.lineWidth = (p.z >= 0 ? 2.2 : 1.5) / z; ctx.stroke();
+    }
+    var lw = 3 / z, items = [], b, c;
+    for (i = 0; i < A.bots.length; i++){
+      b = A.bots[i];
+      if (b.dead > 0 || b.x < x0 - 200 || b.x > x1 + 200 || b.y < y0 - 200 || b.y > y1 + 200) continue;
+      items.push({ mass: b.mass, bot: b });
+    }
+    for (i = 0; i < A.cells.length; i++) items.push({ mass: A.cells[i].mass, cell: A.cells[i] });
+    items.sort(function(a2, b2){ return a2.mass - b2.mass; });
+    for (i = 0; i < items.length; i++){
+      var it = items[i], r2;
+      if (it.bot){
+        b = it.bot; r2 = rOf(b.mass);
+        var P = PWR[b.type], big = r2 * z > 6;
+        if (b.type !== 'p' && b.type !== 'f' && b.type !== 'i' && b.type !== 'x') { /* plain body */ }
+        drawArenaCell(b.x, b.y, r2, P.col, P.edge, lw, A.time, b.ang, '', big);
+        drawDecor(b.type, b.x, b.y, r2, A.time + b.wob, b.ang, lw);
+        if (b.spore > 0){ ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.lineWidth = 3 / z; ctx.beginPath(); ctx.arc(b.x, b.y, r2 * 1.2, 0, 6.283); ctx.stroke(); }
+        if (r2 * z > 18) outlined(P.cell, b.x, b.y - r2 - 12 / z, 13 / z, '#fff');
+      } else {
+        c = it.cell; r2 = rOf(c.mass);
+        var dirc = steerDir(c), ang = Math.atan2(dirc.y, dirc.x);
+        drawArenaCell(c.x, c.y, r2, '#FFA797', '#E4705F', lw, A.time, ang, '', true);
+        if (A.nucleus){
+          ctx.beginPath(); ctx.arc(c.x - r2 * .15, c.y + r2 * .25, r2 * .3, 0, 6.283);
+          ctx.fillStyle = 'rgba(205,184,255,.85)'; ctx.fill(); ctx.strokeStyle = '#8E6BE0'; ctx.lineWidth = lw; ctx.stroke();
+        } else {
+          ctx.strokeStyle = '#7B4FD8'; ctx.lineWidth = Math.max(lw, r2 * .06); ctx.beginPath();
+          ctx.moveTo(c.x - r2 * .5, c.y + r2 * .3);
+          for (j = 1; j <= 6; j++) ctx.lineTo(c.x - r2 * .5 + j * r2 * .17, c.y + r2 * .3 + (j % 2 ? -r2 * .12 : r2 * .12));
+          ctx.stroke();
+        }
+        PKEYS.forEach(function(kk){ if (A.pw[kk] > 0) drawDecor(kk, c.x, c.y, r2, A.time, ang, lw); });
+        if (A.sporeT > 0){ ctx.strokeStyle = 'rgba(255,255,255,.95)'; ctx.lineWidth = 4 / z; ctx.beginPath(); ctx.arc(c.x, c.y, r2 * 1.25, 0, 6.283); ctx.stroke(); }
+        else if (A.protectT > 0 && Math.floor(A.time * 6) % 2 === 0){ ctx.strokeStyle = 'rgba(160,255,190,.9)'; ctx.lineWidth = 3 / z; ctx.setLineDash([6 / z, 6 / z]); ctx.beginPath(); ctx.arc(c.x, c.y, r2 * 1.2, 0, 6.283); ctx.stroke(); ctx.setLineDash([]); }
+        if (A.pw.c > 0 && inLight(c.x, c.y)){ outlined(lightAt(c.x, c.y)[3] >= 1 ? '+energy +size' : '+energy (spot used up)', c.x, c.y - r2 - 14 / z, 13 / z, '#FFF3A8'); }
+        outlined('You', c.x, c.y + r2 + 14 / z, 13 / z, '#FFD23F');
+      }
+    }
+    for (i = 0; i < A.parts.length; i++){
+      var q = A.parts[i];
+      ctx.globalAlpha = Math.max(0, Math.min(1, q.life * 2));
+      circ(q.x, q.y, q.r, q.col);
+    }
+    ctx.globalAlpha = 1;
+    ctx.restore();
+    drawArenaHud();
+  }
+
+  function drawArenaHud(){
+    var A = ar, i, x, y;
+    var M = Math.round(totalMass());
+    outlined('Size ' + M, 14, 24, 26, '#fff', 'left');
+    outlined(A.won ? 'Free play' : 'Powers ' + pcount() + ' of ' + GOAL_POWERS, 14, 50, 16, '#FFD23F', 'left');
+    // energy bar
+    var mE = maxE(), ew = 220, eh = 18, ex = 14, ey = GH - 34;
+    rrect(ex, ey, ew, eh, 9); ctx.fillStyle = 'rgba(18,48,74,.7)'; ctx.fill();
+    var fw = Math.max(0, A.energy / mE * (ew - 4));
+    if (fw > 1){ rrect(ex + 2, ey + 2, fw, eh - 4, 7); ctx.fillStyle = A.energy < 20 ? '#FF6B6B' : '#FFD23F'; ctx.fill(); }
+    rrect(ex, ey, ew, eh, 9); ctx.strokeStyle = '#12304A'; ctx.lineWidth = 3; ctx.stroke();
+    outlined('Energy ' + Math.round(A.energy), ex + 4, ey - 12, 15, '#fff', 'left');
+    if (A.energy <= 0 && A.phase === 'play' && Math.floor(A.time * 3) % 2 === 0) outlined('STARVING! Eat glucose!', ex, ey - 32, 17, '#FF8A8A', 'left');
+    // abilities
+    var act = abilityList();
+    var cw = 104, SHORT = { f: 'Burst', p: 'Lunge', d: 'Split', s: 'Spore' };
+    act.forEach(function(k, n){
+      var R2 = chipRect(n), bx = R2.x, by = R2.y, P = PWR[k], ready = A.cd[k] <= 0 && A.energy >= ACTIVE[k].cost && A.sporeT <= 0;
+      rrect(bx, by, cw, 34, 12); ctx.fillStyle = ready ? '#fff' : 'rgba(255,255,255,.55)'; ctx.fill();
+      var frac = A.cd[k] > 0 ? clamp(A.cd[k] / (ACTIVE[k].cd + (k === 's' ? 2 + A.pw.s : 0)), 0, 1) : 0;
+      if (frac > 0){ ctx.save(); rrect(bx, by, cw, 34, 12); ctx.clip(); ctx.fillStyle = 'rgba(18,48,74,.35)'; ctx.fillRect(bx, by, cw * frac, 34); ctx.restore(); }
+      rrect(bx, by, cw, 34, 12); ctx.strokeStyle = P.edge; ctx.lineWidth = 3; ctx.stroke();
+      ctx.fillStyle = '#12304A'; ctx.font = '700 13px Fredoka, Nunito, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(P.use + ': ' + (k === 'd' ? (A.nucleus ? 'Mitosis' : 'Fission') : SHORT[k]), bx + cw / 2, by + 12);
+      ctx.font = '600 11px Nunito, sans-serif'; ctx.fillText(ACTIVE[k].cost + ' energy', bx + cw / 2, by + 26);
+    });
+    // leaderboard
+    var lb = [{ name: 'You', mass: totalMass(), me: true }];
+    A.bots.forEach(function(b){ if (b.dead <= 0) lb.push({ name: PWR[b.type].lab, mass: b.mass, me: false }); });
+    lb.sort(function(a, b){ return b.mass - a.mass; });
+    rrect(GW - 158, 8, 150, 108, 12); ctx.fillStyle = 'rgba(18,48,74,.6)'; ctx.fill();
+    outlined('Biggest cells', GW - 83, 22, 14, '#fff');
+    for (i = 0; i < 5 && i < lb.length; i++){
+      outlined((i + 1) + '. ' + lb[i].name, GW - 150, 42 + i * 17, 13, lb[i].me ? '#FFD23F' : '#fff', 'left');
+      outlined(String(Math.round(lb[i].mass)), GW - 16, 42 + i * 17, 13, lb[i].me ? '#FFD23F' : '#fff', 'right');
+    }
+    // minimap
+    var mx = GW - 118, my = GH - 118, ms = 104 / AW;
+    rrect(mx, my, 104, 104, 10); ctx.fillStyle = 'rgba(18,48,74,.6)'; ctx.fill();
+    A.zones.light.forEach(function(L){ circ(mx + L[0] * ms, my + L[1] * ms, L[2] * ms, 'rgba(255,240,150,.5)'); });
+    A.zones.hot.forEach(function(H){ circ(mx + H[0] * ms, my + H[1] * ms, H[2] * ms, 'rgba(255,130,50,.6)'); });
+    A.bots.forEach(function(b){ if (b.dead <= 0) circ(mx + b.x * ms, my + b.y * ms, Math.max(1.5, rOf(b.mass) * ms * 1.5), PWR[b.type].col); });
+    A.cells.forEach(function(c){ circ(mx + c.x * ms, my + c.y * ms, 3.5, '#fff'); });
+    rrect(mx, my, 104, 104, 10); ctx.strokeStyle = '#12304A'; ctx.lineWidth = 3; ctx.stroke();
+    if (A.hintT > 0 && A.hint) outlined(A.hint, GW / 2, GH - 64, 17, '#FFD23F');
+    if (A.burning && A.phase === 'play'){
+      var gh = ctx.createRadialGradient(GW / 2, GH / 2, GH * .3, GW / 2, GH / 2, GW * .62);
+      gh.addColorStop(0, 'rgba(255,60,30,0)'); gh.addColorStop(1, 'rgba(255,60,30,' + (.38 + .14 * Math.sin(A.time * 10)) + ')');
+      ctx.fillStyle = gh; ctx.fillRect(0, 0, GW, GH);
+      outlined('TOO HOT! Only extremophiles are safe here', GW / 2, 108, 20, '#FFB3A0');
+    }
+    drawBannerOf(A.banner);
+    if (A.phase === 'idle'){
+      ctx.fillStyle = 'rgba(18,48,74,.3)'; ctx.fillRect(0, 0, GW, GH);
+      outlined('Press Start when you are ready!', GW / 2, GH / 2, 32);
+    } else if (A.phase === 'story'){
+      ctx.fillStyle = 'rgba(11,42,68,.78)'; ctx.fillRect(0, 0, GW, GH);
+      var SP = PWR[A.story.k], scx = GW / 2, scy = GH / 2 + 40, SR = 120, stt = A.time;
+      drawArenaCell(scx, scy, SR, '#FFA797', '#E4705F', 5, stt, -1.57, '', true);
+      var six = scx + Math.sin(stt * 1.2) * 30, siy = scy + 24 + Math.cos(stt) * 12;
+      ctx.beginPath(); ctx.arc(six, siy, 48, 0, 6.283); ctx.fillStyle = 'rgba(255,243,168,.38)'; ctx.fill();
+      drawArenaCell(six, siy, 34, SP.col, SP.edge, 3, stt, .3, '', true);
+      drawDecor(A.story.k, six, siy, 34, stt, .3, 2);
+      outlined('Inside you: ' + SP.cell, six, siy + 64, 16, '#FFD23F');
+      outlined('Eaten, but NOT digested!', GW / 2, 34, 32, '#FFF3A8');
+      outlined('It is alive inside you and now helps you', GW / 2, 68, 19);
+    } else if (A.phase === 'dead'){
+      ctx.fillStyle = 'rgba(11,42,68,.75)'; ctx.fillRect(0, 0, GW, GH);
+      var KP = PWR[A.killer.type], kcx = GW / 2, kcy = GH / 2 + 40, KR = 125, kt = A.time;
+      drawArenaCell(kcx, kcy, KR, KP.col, KP.edge, 5, kt, 0, '', false);
+      drawDecor(A.killer.type, kcx, kcy, KR, kt, 0, 4);
+      ctx.beginPath(); ctx.arc(kcx, kcy, KR * .8, 0, 6.283); ctx.fillStyle = 'rgba(255,255,255,.28)'; ctx.fill();
+      var ypx = kcx + Math.sin(kt * 1.3) * 26, ypy = kcy + Math.cos(kt * 1.1) * 16 + 8;
+      drawArenaCell(ypx, ypy, 27, '#FFA797', '#E4705F', 3, kt, .3, '', true);
+      outlined('You', ypx, ypy + 44, 16, '#FFD23F');
+      outlined('Eaten by ' + anCell(KP) + '!', GW / 2, 34, 32, '#FF8A8A');
+      outlined('You are now living inside the cell that ate you', GW / 2, 68, 19);
+    } else if (A.phase === 'won'){
+      ctx.fillStyle = 'rgba(18,48,74,.3)'; ctx.fillRect(0, 0, GW, GH);
+      outlined('MODERN EUKARYOTE!', GW / 2, GH / 2 - 10, 56, '#FFD23F');
+      outlined('Keep playing, or play again? Choose on the right.', GW / 2, GH / 2 + 34, 18);
+    }
+  }
+
+  /* ----- arena panels ----- */
+  function arGoalsHtml(){
+    var m = Math.round(totalMass()), pc = pcount();
+    function g(done, txt){ return '<li class="' + (done ? 'gdone' : '') + '"><span class="gbox">' + (done ? '&#10003;' : '') + '</span><span>' + txt + '</span></li>'; }
+    return (ar.won ? '<p class="found">Free play: you are a modern eukaryote! Can you become the biggest cell?</p>' : '') + '<ul class="goals">' +
+      g(ar.pw.m > 0, 'Install <b>mitochondria</b> (eat a red bacterium)') +
+      g(ar.nucleus, 'Reach size ' + NUC_MASS + ' to become a <b>eukaryote</b>') +
+      g(pc >= GOAL_POWERS, 'Collect <b>' + GOAL_POWERS + ' different powers</b> (' + pc + ' so far)') +
+      g(m >= GOAL_MASS, 'Reach size <b>' + GOAL_MASS + '</b> (' + m + ' now)') + '</ul>';
+  }
+  function anCell(P){ var n = P.cell.toLowerCase(); return (/^[aeiou]/.test(n) ? 'an ' : 'a ') + n; }
+  function arPowersHtml(){
+    return '<div class="pwlist">' + PKEYS.map(function(k){
+      var P = PWR[k], L = ar.pw[k], pips = '';
+      for (var i = 0; i < AMAX; i++) pips += '<i class="' + (i < L ? 'on' : '') + '" style="--c:' + P.col + '"></i>';
+      return '<div class="pw' + (L ? ' have' : '') + '"><span class="dot" style="background:' + P.col + '"></span>' +
+             '<span class="pn">' + (L ? P.name : 'Eat ' + anCell(P)) + '</span>' +
+             '<span class="pk">' + (L ? (P.use === 'passive' ? 'always on' : P.use) : '') + '</span><span class="pips">' + pips + '</span>' +
+             (L ? '<span class="pd">' + P.what + '</span>' : '') + '</div>';
+    }).join('') + '</div>';
+  }
+  function updateArenaPanel(){
+    var el = document.getElementById('arSide');
+    if (!el || !ar) return;
+    var sig = Math.round(totalMass() / 5) + ':' + PKEYS.map(function(k){ return ar.pw[k]; }).join('') + (ar.nucleus ? 'N' : '') + (ar.won ? 'W' : '');
+    if (sig === ar.sig) return;
+    ar.sig = sig;
+    el.innerHTML = arGoalsHtml() + arPowersHtml();
+  }
+
+  function freeLevels(){ return Math.min(bonus, 2); }
+  function pickCount(){ var n = 0; PKEYS.forEach(function(k){ if (ar.picks[k]) n++; }); return n; }
+  function chipsHtml(){
+    return PKEYS.map(function(k){
+      var P = PWR[k], on = !!ar.picks[k];
+      return '<button class="chip' + (on ? ' sel' : '') + '" data-act="apick" data-k="' + k + '" aria-pressed="' + on + '"><span class="dot" style="background:' + P.col + '"></span>' + P.name + '</button>';
+    }).join('');
+  }
+  function pickHtml(){
+    if (!bonus) return '<div class="perk"><b>Quiz bonus:</b> none yet. Score points on the Bonus Quiz to earn a head start! <button class="btn ghost small" data-act="quiz" style="margin-top:6px">Take the quiz</button></div>';
+    var f = freeLevels(), extra = Math.max(0, bonus - 2);
+    return '<div class="perk"><b>Quiz bonus (' + bonus + ' of 4):</b> pick ' + f + ' free starting power' + (f === 1 ? '' : 's') + '.' +
+           (extra ? ' You also start bigger and protected longer.' : '') +
+           ' <span id="arPickInfo">Picked ' + pickCount() + ' of ' + f + '.</span><div class="chips" id="arPick">' + chipsHtml() + '</div></div>';
+  }
+  function toggleArenaPick(k){
+    if (!ar || ar.phase !== 'idle' || !PWR[k]) return;
+    if (ar.picks[k]) delete ar.picks[k];
+    else if (pickCount() < freeLevels()) ar.picks[k] = true;
+    var el = document.getElementById('arPick'), info = document.getElementById('arPickInfo');
+    if (el) el.innerHTML = chipsHtml();
+    if (info) info.textContent = 'Picked ' + pickCount() + ' of ' + freeLevels() + '.';
+  }
+  function arenaPerkLine(sc){
+    if (!sc) return '';
+    var f = Math.min(sc, 2), extra = Math.max(0, sc - 2);
+    return '<p class="words">Cell Arena head start: ' + f + ' free starting power' + (f === 1 ? '' : 's') + (extra ? ', plus a bigger start and longer protection' : '') + '.</p>';
+  }
+
+  function renderArenaIntro(){
+    leaveGame();
+    mode = 'arena'; scene = 'arena';
+    frame.classList.add('playing');
+    canvas.style.cursor = 'crosshair';
+    newArena(null);
+    startLoop();
+    panel.setAttribute('aria-live', 'polite');
+    panel.innerHTML =
+      '<div class="content"><h2>Cell Arena</h2>' +
+      '<p>Eat smaller cells to grow, and run from bigger ones! Every wild cell carries a power. When you eat one, its power moves into your cell, just like endosymbiosis.</p>' +
+      '<p class="keys"><b>Steer:</b> move the mouse (or use W A S D / arrow keys). <b>Shift</b> burst, <b>E</b> lunge, <b>Space</b> split in two (binary fission, then mitosis once you have a nucleus), <b>Q</b> spore. Split pieces move faster and you steer them all. The pond is huge, so use the minimap to explore!</p>' +
+      pickHtml() +
+      '<div class="nav" style="margin:10px 0 14px"><button class="btn ghost" data-act="home">Menu</button>' +
+      '<button class="btn big" data-act="astart">Start!</button></div>' +
+      '<div id="arSide"></div></div>';
+    ar.sig = ''; updateArenaPanel();
+  }
+
+  function startArena(){
+    if (!ar || ar.phase !== 'idle') return;
+    var extra = Math.max(0, bonus - 2), got = [];
+    PKEYS.forEach(function(k){ if (ar.picks[k] && ar.pw[k] < 1){ ar.pw[k] = 1; got.push(PWR[k].name); } });
+    ar.cells[0].mass = 24 + 12 * extra;
+    ar.energy = maxE();
+    ar.phase = 'play'; ar.protectT = 4 + 3 * extra;
+    toTop();
+    if (got.length || extra) setArBanner('Quiz head start!', (got.length ? 'You start with ' + got.join(' and ') : 'You start bigger') + (got.length && extra ? ', and bigger.' : '.'));
+    else setArBanner(ar.pw.m ? 'Find cells to eat!' : 'Find a red bacterium!', ar.pw.m ? 'Collect 5 different powers.' : 'Eat one to install mitochondria.');
+    renderArenaPlayPanel();
+  }
+
+  /* ---------- the win screen: survival of the fittest ---------- */
+  function startArenaEvo(){
+    var n = pcount(), seen = {}, types = [], i;
+    // the three biggest kinds of wild cell in the pond, each of which has just one power
+    var alive = ar.bots.filter(function(b){ return b.dead <= 0 && b.type !== 'd'; }).sort(function(a, b){ return b.mass - a.mass; });
+    for (i = 0; i < alive.length && types.length < 3; i++){
+      if (!seen[alive[i].type]){ seen[alive[i].type] = true; types.push(alive[i].type); }
+    }
+    var pool = ['m', 'c', 'f', 'i', 'p', 's', 'x'].filter(function(t){ return !seen[t]; });
+    while (types.length < 3 && pool.length) types.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
+    var groups = [{ name: 'You: eukaryote, ' + n + ' powers', col: '#FFA797', edge: '#E4705F', nuc: true, rounds: 6, you: true }];
+    types.forEach(function(t, k){
+      var P = PWR[t];
+      groups.push({ name: P.cell + ' (1 power)', col: P.col, edge: P.edge, nuc: t === 'i' || t === 'p', rounds: 5 - k, type: t });
+    });
+    var boxes = [[10, 46], [410, 46], [10, 250], [410, 250]];
+    ar.evo = { t: 0, ponds: [], doneT: .9 + 5 + 1.6 };
+    groups.forEach(function(g, gi){
+      ar.evo.ponds.push({ g: g, rounds: g.rounds, gen: 0, nextT: .9, bx: boxes[gi][0], by: boxes[gi][1], w: 380, h: 190,
+                          cells: [{ x: boxes[gi][0] + 190, y: boxes[gi][1] + 105, vx: 0, vy: 0, born: -1 }] });
+    });
+  }
+
+  function updateArenaEvo(dt){
+    var E = ar.evo, i, j;
+    E.t += dt;
+    E.ponds.forEach(function(P){
+      var cs = P.cells, rad = 9;
+      if (P.gen < P.rounds && E.t >= P.nextT){
+        P.gen++; P.nextT += 1;
+        var n = cs.length;
+        for (i = 0; i < n; i++){
+          var c0 = cs[i], a = rnd(0, 6.283), ca = Math.cos(a) * 70, sa = Math.sin(a) * 70;
+          cs.push({ x: c0.x, y: c0.y, vx: ca, vy: sa, born: E.t });
+          c0.vx -= ca; c0.vy -= sa; c0.born = E.t;
+        }
+      }
+      var damp = Math.exp(-2.2 * dt);
+      for (i = 0; i < cs.length; i++){
+        var c = cs[i];
+        c.vx = c.vx * damp + rnd(-1, 1) * 22 * dt; c.vy = c.vy * damp + rnd(-1, 1) * 22 * dt;
+      }
+      for (i = 0; i < cs.length; i++){
+        for (j = i + 1; j < cs.length; j++){
+          var dx = cs[j].x - cs[i].x, dy = cs[j].y - cs[i].y, d2 = dx * dx + dy * dy, m = rad * 2;
+          if (d2 < m * m && d2 > .01){
+            var d = Math.sqrt(d2), push = (m - d) / 2 * Math.min(1, dt * 12), nx = dx / d, ny = dy / d;
+            cs[i].x -= nx * push; cs[i].y -= ny * push; cs[j].x += nx * push; cs[j].y += ny * push;
+          }
+        }
+      }
+      for (i = 0; i < cs.length; i++){
+        var q = cs[i];
+        q.x = clamp(q.x + q.vx * dt, P.bx + rad + 4, P.bx + P.w - rad - 4);
+        q.y = clamp(q.y + q.vy * dt, P.by + 34, P.by + P.h - rad - 4);
+      }
+    });
+  }
+
+  function drawArenaEvo(){
+    var E = ar.evo, i;
+    var gr = ctx.createLinearGradient(0, 0, 0, GH);
+    gr.addColorStop(0, '#16507A'); gr.addColorStop(1, '#0B2A44');
+    ctx.fillStyle = gr; ctx.fillRect(0, 0, GW, GH);
+    outlined('Survival of the fittest!', GW / 2, 24, 30, '#FFD23F');
+    var showWin = E.t > E.doneT;
+    E.ponds.forEach(function(P){
+      var g = P.g, you = !!g.you;
+      var pg = ctx.createLinearGradient(0, P.by, 0, P.by + P.h);
+      pg.addColorStop(0, '#3FA9C0'); pg.addColorStop(1, '#1B6585');
+      rrect(P.bx, P.by, P.w, P.h, 16); ctx.fillStyle = pg; ctx.fill();
+      ctx.lineWidth = (showWin && you) ? 6 : 3; ctx.strokeStyle = (showWin && you) ? '#FFD23F' : '#12304A'; ctx.stroke();
+      for (i = 0; i < P.cells.length; i++){
+        var c = P.cells[i], age = c.born < 0 ? 9 : E.t - c.born, sc = clamp(.5 + age * 1.1, .5, 1), r = 9 * sc;
+        var sq = 1 + .3 * (1 - clamp(age * 2, 0, 1));
+        ctx.save(); ctx.translate(c.x, c.y); ctx.scale(sq, 1 / sq);
+        ctx.beginPath(); ctx.arc(0, 0, r, 0, 6.283); ctx.fillStyle = g.col; ctx.fill();
+        ctx.strokeStyle = g.edge; ctx.lineWidth = 2; ctx.stroke();
+        if (g.nuc) circ(r * .1, r * .35, r * .3, '#8E6BE0');
+        circ(-r * .3, -r * .25, r * .26, '#fff'); circ(r * .3, -r * .25, r * .26, '#fff');
+        circ(-r * .3, -r * .22, r * .12, '#12304A'); circ(r * .3, -r * .22, r * .12, '#12304A');
+        ctx.restore();
+      }
+      outlined(g.name, P.bx + 12, P.by + 18, 17, '#fff', 'left');
+      outlined(P.cells.length + ' cells', P.bx + P.w - 12, P.by + 18, 17, '#FFD23F', 'right');
+      if (showWin && you){
+        star(P.bx + P.w / 2 - 50, P.by + P.h - 20, 12);
+        outlined('YOU WIN!', P.bx + P.w / 2 + 12, P.by + P.h - 19, 24, '#FFD23F');
+      }
+    });
+  }
+
+  function renderArenaWin(){
+    panel.setAttribute('aria-live', 'polite');
+    var list = PKEYS.filter(function(k){ return ar.pw[k] > 0; }).map(function(k){
+      var P = PWR[k];
+      return '<li><b>' + P.name + '</b>' + (P.real ? ' <span class="red">endosymbiosis</span>' : '') + '<br><span class="blue">' + P.short + '</span></li>';
+    }).join('');
+    panel.innerHTML =
+      '<div class="content"><h2>You evolved!</h2>' +
+      '<p>You became a <b>modern eukaryote</b> with ' + pcount() + ' powers' + (ar.deaths ? ', even after being eaten ' + ar.deaths + ' time' + (ar.deaths === 1 ? '' : 's') : '') + '. Only mitochondria and chloroplasts really came from endosymbiosis.</p>' +
+      '<div class="swimrow"><button class="btn big" data-act="akeep">Keep playing</button>' +
+      '<span class="found">Free play: keep growing and become the biggest cell!</span></div>' +
+      '<p>Watch the screen: you collected <b>' + pcount() + ' powers</b>, and each wild cell has just <b>1</b>. <b>Cells with more helpful traits survive better and reproduce more.</b></p>' +
+      '<p><span class="blue">This is natural selection. Endosymbiosis gave eukaryotes mitochondria, and the extra energy helped them thrive.</span></p>' +
+      '<ul class="res">' + list + '</ul></div>' +
+      '<div class="nav"><button class="btn ghost" data-act="home">Menu</button>' +
+      '<button class="btn ghost" data-act="aevo">Watch again</button>' +
+      '<button class="btn" data-act="agame">Play again</button></div>';
+  }
+
+  function keepPlaying(){
+    if (!ar || ar.phase !== 'won') return;
+    ar.phase = 'play'; ar.protectT = 3; ar.evo = null;
+    setArBanner('Free play!', 'You are a modern eukaryote. Become the biggest cell!');
+    renderArenaPlayPanel();
+  }
+
+  canvas.addEventListener('pointermove', function(e){
+    if (!ar || mode !== 'arena') return;
+    ar.mouse = ptrPos(e);
+  });
+  canvas.addEventListener('pointerdown', function(e){
+    if (!ar || mode !== 'arena' || ar.phase !== 'play') return;
+    var p = ptrPos(e), list = abilityList();
+    for (var n = 0; n < list.length; n++){
+      var R = chipRect(n);
+      if (p.x >= R.x && p.x <= R.x + R.w && p.y >= R.y && p.y <= R.y + R.h){ arenaKey(CHIP_KEY[list[n]]); return; }
+    }
+  });
+
+  function onKey(e, down){
+    if (mode !== 'arena' || !ar) return;
+    var k = e.key.toLowerCase();
+    if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' '].indexOf(k) !== -1) e.preventDefault();
+    ar.keys[k] = down;
+    if (ar.phase === 'story' && down && k === 'enter'){ continueStory(); return; }
+    if (down && !e.repeat) arenaKey(k);
+  }
+  window.addEventListener('keydown', function(e){ onKey(e, true); });
+  window.addEventListener('keyup', function(e){ onKey(e, false); });
+  window.addEventListener('blur', function(){ if (ar) ar.keys = {}; });
+
+  /* ------------------------------------------------------------------
+     EVENTS + START
+  ------------------------------------------------------------------ */
+  function onClick(e){
+    var b = e.target.closest('[data-act]');
+    if (!b || b.disabled) return;
+    var act = b.getAttribute('data-act');
+    if (act === 'go'){ go(b.getAttribute('data-stop')); }
+    else if (act === 'home'){ renderHome(); }
+    else if (act === 'reset'){
+      if (window.confirm('Erase all progress on this computer?')){
+        P = defaultP(); saveP(); viewed = {}; currentClue = null; idx = 0;
+        bonus = 0; QS = {};
+        renderHome();
+      }
+    }
+    else if (act === 'qans'){ qAnswer(b.getAttribute('data-stop'), parseInt(b.getAttribute('data-q'), 10), parseInt(b.getAttribute('data-i'), 10)); }
+    else if (act === 'step'){ idx = parseInt(b.getAttribute('data-i'), 10); renderStory(); }
+    else if (act === 'back'){ if (idx === 0) go('euk'); else { idx--; renderStory(); } }
+    else if (act === 'next'){ if (idx === STORY.length - 1) renderStoryCheck(); else { idx++; renderStory(); } }
+    else if (act === 'clue'){
+      var key = b.getAttribute('data-key');
+      currentClue = key; viewed[key] = true; P.viewed = viewed; saveP(); setEv(key); renderStory();
+      var again = panel.querySelector('.clue[data-key="' + key + '"]');
+      if (again) again.focus();
+    }
+    else if (act === 'answer'){ answer(parseInt(b.getAttribute('data-i'), 10)); }
+    else if (act === 'qnext'){ if (qi === QUIZ.length - 1) renderResults(); else { qi++; renderQuiz(); } }
+    else if (act === 'quiz'){ go('quiz'); }
+    else if (act === 'astart'){ startArena(); }
+    else if (act === 'agame'){ go('arena'); }
+    else if (act === 'apick'){ toggleArenaPick(b.getAttribute('data-k')); }
+    else if (act === 'akeep'){ keepPlaying(); }
+    else if (act === 'aevo'){ if (ar && ar.phase === 'won') startArenaEvo(); }
+    else if (act === 'astory'){ continueStory(); }
+    else if (act === 'arespawn'){ if (ar && ar.phase === 'dead' && ar.deadT >= ar.lock) respawnPlayer(); }
+  }
+  document.addEventListener('click', onClick);
+
+  document.addEventListener('keydown', function(e){
+    if (mode !== 'story') return;
+    if (e.key === 'ArrowRight'){
+      var n = panel.querySelector('[data-act="next"]');
+      if (n && !n.disabled) n.click();
+    } else if (e.key === 'ArrowLeft'){
+      var p = panel.querySelector('[data-act="back"]');
+      if (p) p.click();
+    }
+  });
+
+  bonus = P.quizBest | 0;
+  renderHome();
+})();
+</script>
+</body>
+</html>
