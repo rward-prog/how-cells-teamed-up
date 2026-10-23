@@ -39,6 +39,14 @@ header .dot::after{content:"";position:absolute;left:15px;top:13px;width:11px;he
 main{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(330px,1fr);gap:20px;align-items:stretch}
 @media (max-width:900px){main{grid-template-columns:1fr}}
 
+.stage-col{align-self:start;min-width:0}
+.stage-tools{display:flex;justify-content:flex-end;margin-top:14px}
+#gamegrid:fullscreen{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:18px;padding:16px;width:100vw;height:100vh;box-sizing:border-box;
+  background:linear-gradient(180deg,#0F4C73 0%,#0A2F4C 100%);align-items:center;overflow:hidden}
+#gamegrid:fullscreen .stage-col{align-self:center;display:flex;flex-direction:column;align-items:center;width:100%}
+#gamegrid:fullscreen .stage-frame{width:min(100%,calc((100vh - 96px) * 16 / 9))}
+#gamegrid:fullscreen .stage-tools{width:min(100%,calc((100vh - 96px) * 16 / 9))}
+#gamegrid:fullscreen .panel{height:calc(100vh - 32px);overflow-y:auto;min-height:0}
 .stage-frame{border:4px solid var(--ink);border-radius:26px;overflow:hidden;box-shadow:0 8px 0 var(--ink);background:var(--water-deep);align-self:start}
 #stage{display:block;width:100%;height:auto}
 
@@ -283,6 +291,7 @@ ol.keys li .red{display:inline-block;background:#FFEAEE;border:2px solid var(--r
   <article id="lesson" class="lesson"></article>
 
   <main id="gamegrid" hidden>
+    <div class="stage-col">
     <div class="stage-frame" id="frame">
       <svg id="stage" viewBox="0 0 800 450" role="img" aria-label="A cartoon cell in a pond, swallowing bacteria that become its organelles">
         <defs>
@@ -386,6 +395,8 @@ ol.keys li .red{display:inline-block;background:#FFEAEE;border:2px solid var(--r
         <g id="labels" aria-hidden="true"></g>
       </svg>
       <canvas id="game" width="1600" height="900" aria-label="Cell Arena game"></canvas>
+    </div>
+    <div class="stage-tools"><button class="btn small ghost" id="fsBtn" type="button" hidden>Full screen (F)</button></div>
     </div>
 
     <section class="panel" id="panel" aria-live="polite"></section>
@@ -998,7 +1009,23 @@ ol.keys li .red{display:inline-block;background:#FFEAEE;border:2px solid var(--r
     return a;
   }
   function toTop(){ if (window.scrollTo) window.scrollTo(0, 0); }
-  function showView(v){ lessonEl.hidden = (v !== 'lesson'); gridEl.hidden = (v !== 'game'); }
+  var fsBtn = document.getElementById('fsBtn');
+  var fsOK = !!(document.fullscreenEnabled && gridEl.requestFullscreen);
+  function fsLabel(){ fsBtn.textContent = document.fullscreenElement ? 'Exit full screen' : 'Full screen (F)'; }
+  function toggleFullscreen(){
+    if (!fsOK) return;
+    if (document.fullscreenElement){ if (document.exitFullscreen) document.exitFullscreen(); }
+    else { var pr = gridEl.requestFullscreen(); if (pr && pr.catch) pr.catch(function(){}); }
+  }
+  if (fsOK){
+    fsBtn.hidden = false; fsLabel();
+    fsBtn.addEventListener('click', function(){ toggleFullscreen(); fsBtn.blur(); });
+    document.addEventListener('fullscreenchange', fsLabel);
+  }
+  function showView(v){
+    if (v !== 'game' && document.fullscreenElement && document.exitFullscreen) document.exitFullscreen();
+    lessonEl.hidden = (v !== 'lesson'); gridEl.hidden = (v !== 'game');
+  }
   function doneCount(){ var n = 0; STOPS.forEach(function(s){ if (P.done[s.id]) n++; }); return n; }
 
   function renderTrail(){
@@ -2472,6 +2499,7 @@ ol.keys li .red{display:inline-block;background:#FFEAEE;border:2px solid var(--r
     var k = e.key.toLowerCase();
     if (['arrowup', 'arrowdown', 'arrowleft', 'arrowright', ' '].indexOf(k) !== -1) e.preventDefault();
     ar.keys[k] = down;
+    if (down && !e.repeat && k === 'f'){ toggleFullscreen(); return; }
     if (ar.phase === 'story' && down && k === 'enter'){ continueStory(); return; }
     if (down && !e.repeat) arenaKey(k);
   }
